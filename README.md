@@ -20,9 +20,11 @@ How to build
 
 Premake is used as project generator. To build the project, follow those steps :
 
-    cd src/hlsl_parser      # go to HLSL parser directory
-    ./generate_parser.sh    # generate the HLSL parser (use .bat file for Windows systems)
-    premake gmake           # or any target you want to use ( vs2010, xcode4, ... )
+    cd src/hlsl_parser               # go to HLSL parser directory
+    ./generate_parser.sh             # generate the HLSL parser (use .bat file for Windows systems)
+    mkdir build                      #
+    cmake -G "Unix Makefiles" ..     # You can use any generator
+    make                             # make the lib and the binary
+    make test                        # Run the tests
 
-You now have a valid project to build.
 

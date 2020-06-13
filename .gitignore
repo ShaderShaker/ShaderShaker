@@ -1,23 +1,7 @@
-DerivedData/
-*.xcworkspace/
-*.xcodeproj/
-
-*.vcxproj*
-*.sln
-
-Makefile
-*.make
 
 src/hlsl_parser/HLSL.tokens
 src/hlsl_parser/HLSLLexer.*
 src/hlsl_parser/HLSLParser.*
-
-bin/
-obj/
-
 .DS_Store
 
-ShaderShaker.opensdf
-ShaderShaker.sdf
-
-*.suo
+build
