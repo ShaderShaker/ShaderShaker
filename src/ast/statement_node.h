@@ -27,28 +27,28 @@
         {
             AST_HandleVisitor()
 
-            virtual BreakStatement * Clone() const { return new BreakStatement; }
+            virtual BreakStatement * Clone() const override { return new BreakStatement; }
         };
 
         struct ContinueStatement : Statement
         {
             AST_HandleVisitor()
 
-            virtual ContinueStatement * Clone() const { return new ContinueStatement;}
+            virtual ContinueStatement * Clone() const override { return new ContinueStatement;}
         };
 
         struct DiscardStatement : Statement
         {
             AST_HandleVisitor()
 
-            virtual DiscardStatement * Clone() const { return new DiscardStatement;}
+            virtual DiscardStatement * Clone() const override { return new DiscardStatement;}
         };
 
         struct EmptyStatement : Statement
         {
             AST_HandleVisitor()
 
-            virtual EmptyStatement * Clone() const { return new EmptyStatement; }
+            virtual EmptyStatement * Clone() const override { return new EmptyStatement; }
         };
 
         struct ExpressionStatement : Statement
