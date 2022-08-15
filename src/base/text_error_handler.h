@@ -7,18 +7,12 @@ namespace Base
 {
     class TextErrorHandler : public ErrorHandlerInterface
     {
-    public:
-
-        void ReportError(
-            const std::string & message,
-            const std::string & file
-            ) override;
+      public:
+        void ReportError( const std::string &message, const std::string &file ) override;
 
         std::string GetErrorMessage();
 
-    private:
-
-        std::stringstream
-            m_ErrorStream;
+      private:
+        std::stringstream m_ErrorStream;
     };
 }

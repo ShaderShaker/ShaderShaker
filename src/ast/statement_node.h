@@ -1,185 +1,227 @@
-#ifndef STATEMENT_NODE_H
-    #define STATEMENT_NODE_H
+#pragma once
 
-    namespace AST
+namespace AST
+{
+    struct Expression;
+
+    struct Statement : Node
     {
-        struct Expression;
-
-        struct Statement : Node
+        virtual Statement *Clone() const override
         {
-            virtual Statement * Clone() const override { return 0; }
-        };
+            return 0;
+        }
+    };
 
-        struct ReturnStatement : Statement
+    struct ReturnStatement : Statement
+    {
+        AST_HandleVisitor();
+
+        ReturnStatement()
         {
-            AST_HandleVisitor()
-
-            ReturnStatement(){}
-            ReturnStatement( Expression * expression ) : m_Expression( expression ) {}
-
-            virtual ReturnStatement * Clone() const override;
-
-            Base::ObjectRef<Expression>
-                m_Expression;
-        };
-
-        struct BreakStatement : Statement
+        }
+        ReturnStatement( Expression *expression ) : m_Expression( expression )
         {
-            AST_HandleVisitor()
+        }
 
-            virtual BreakStatement * Clone() const override { return new BreakStatement; }
-        };
+        ReturnStatement *Clone() const override;
 
-        struct ContinueStatement : Statement
+        Base::ObjectRef< Expression > m_Expression;
+    };
+
+    struct BreakStatement : Statement
+    {
+        AST_HandleVisitor();
+
+        BreakStatement *Clone() const override
         {
-            AST_HandleVisitor()
+            return new BreakStatement;
+        }
+    };
 
-            virtual ContinueStatement * Clone() const override { return new ContinueStatement;}
-        };
+    struct ContinueStatement : Statement
+    {
+        AST_HandleVisitor();
 
-        struct DiscardStatement : Statement
+        ContinueStatement *Clone() const override
         {
-            AST_HandleVisitor()
+            return new ContinueStatement;
+        }
+    };
 
-            virtual DiscardStatement * Clone() const override { return new DiscardStatement;}
-        };
+    struct DiscardStatement : Statement
+    {
+        AST_HandleVisitor();
 
-        struct EmptyStatement : Statement
+        DiscardStatement *Clone() const override
         {
-            AST_HandleVisitor()
+            return new DiscardStatement;
+        }
+    };
 
-            virtual EmptyStatement * Clone() const override { return new EmptyStatement; }
-        };
+    struct EmptyStatement : Statement
+    {
+        AST_HandleVisitor();
 
-        struct ExpressionStatement : Statement
+        EmptyStatement *Clone() const override
         {
-            AST_HandleVisitor()
+            return new EmptyStatement;
+        }
+    };
 
-            ExpressionStatement() {}
-            ExpressionStatement( Expression * expression ) : m_Expression( expression ) {}
+    struct ExpressionStatement : Statement
+    {
+        AST_HandleVisitor();
 
-            virtual ExpressionStatement * Clone() const override;
-
-            Base::ObjectRef<Expression>
-                m_Expression;
-        };
-
-        struct IfStatement : Statement
+        ExpressionStatement()
         {
-            AST_HandleVisitor()
-
-            IfStatement() {}
-            IfStatement( Expression * condition, Statement * then_statement, Statement * else_statement )
-                :
-                m_Condition( condition ),
-                m_ThenStatement( then_statement ),
-                m_ElseStatement( else_statement )
-            {
-
-            }
-
-            virtual IfStatement * Clone() const override;
-
-            Base::ObjectRef<Expression>
-                m_Condition;
-            Base::ObjectRef<Statement>
-                m_ThenStatement,
-                m_ElseStatement;
-        };
-
-        struct WhileStatement : Statement
+        }
+        ExpressionStatement( Expression *expression ) : m_Expression( expression )
         {
-            AST_HandleVisitor()
+        }
 
-            WhileStatement() {}
-            WhileStatement( Expression * condition, Statement * statement ) : m_Condition( condition ), m_Statement( statement ) {}
+        ExpressionStatement *Clone() const override;
 
-            virtual WhileStatement * Clone() const override;
+        Base::ObjectRef< Expression > m_Expression;
+    };
 
-            Base::ObjectRef<Expression>
-                m_Condition;
-            Base::ObjectRef<Statement>
-                m_Statement;
-        };
+    struct IfStatement : Statement
+    {
+        AST_HandleVisitor();
 
-        struct DoWhileStatement : Statement
+        IfStatement()
         {
-            AST_HandleVisitor()
-
-            DoWhileStatement() {}
-            DoWhileStatement( Expression * condition, Statement * statement ) : m_Condition( condition ), m_Statement( statement ) {}
-
-            virtual DoWhileStatement * Clone() const override;
-
-            Base::ObjectRef<Expression>
-                m_Condition;
-            Base::ObjectRef<Statement>
-                m_Statement;
-        };
-
-        struct ForStatement : Statement
+        }
+        IfStatement( Expression *condition, Statement *then_statement, Statement *else_statement )
+            : m_Condition( condition ), m_ThenStatement( then_statement ), m_ElseStatement( else_statement )
         {
-            ForStatement() {}
-            ForStatement( Statement * init_statement, Expression * equality_expression, Expression * modify_expression, Statement * statement ) :
-                m_InitStatement( init_statement ), m_Statement( statement ),
-                m_EqualityExpression( equality_expression ), m_ModifyExpression( modify_expression ){}
+        }
 
-            virtual ForStatement * Clone() const override;
+        IfStatement *Clone() const override;
 
-            Base::ObjectRef<Statement>
-                m_InitStatement,
-                m_Statement;
-            Base::ObjectRef<Expression>
-                m_EqualityExpression,
-                m_ModifyExpression;
-        };
+        Base::ObjectRef< Expression > m_Condition;
+        Base::ObjectRef< Statement > m_ThenStatement, m_ElseStatement;
+    };
 
-        struct BlockStatement : Statement
+    struct WhileStatement : Statement
+    {
+        AST_HandleVisitor();
+
+        WhileStatement()
         {
-            AST_HandleVisitor()
-
-            void AddStatement( Statement * statement ){ m_StatementTable.emplace_back( statement ); }
-
-            virtual BlockStatement * Clone() const override;
-
-            std::vector< Base::ObjectRef<Statement> >
-                m_StatementTable;
-        };
-
-        struct VariableDeclarationStatement : Statement
+        }
+        WhileStatement( Expression *condition, Statement *statement )
+            : m_Condition( condition ), m_Statement( statement )
         {
-            AST_HandleVisitor()
+        }
 
-            void SetType( Type * type ){ assert( type ); m_Type = type; }
-            void AddStorageClass( StorageClass * storage_class ){ assert( storage_class ); m_StorageClass.emplace_back( storage_class ); }
-            void AddTypeModifier( TypeModifier * type_modifier ){ assert( type_modifier ); m_TypeModifier.emplace_back( type_modifier ); }
-            void AddBody( VariableDeclarationBody * body ){ assert( body ); m_BodyTable.emplace_back( body ); }
+        WhileStatement *Clone() const override;
 
-            virtual VariableDeclarationStatement * Clone() const override;
+        Base::ObjectRef< Expression > m_Condition;
+        Base::ObjectRef< Statement > m_Statement;
+    };
 
-            Base::ObjectRef<Type> m_Type;
-            std::vector<Base::ObjectRef<StorageClass> > m_StorageClass;
-            std::vector<Base::ObjectRef<TypeModifier> > m_TypeModifier;
-            std::vector<Base::ObjectRef<VariableDeclarationBody> > m_BodyTable;
-        };
+    struct DoWhileStatement : Statement
+    {
+        AST_HandleVisitor();
 
-        struct AssignmentStatement : Statement
+        DoWhileStatement()
         {
-            AST_HandleVisitor()
+        }
+        DoWhileStatement( Expression *condition, Statement *statement )
+            : m_Condition( condition ), m_Statement( statement )
+        {
+        }
 
-            AssignmentStatement() {}
-            AssignmentStatement( LValueExpression * lvexp, AssignmentOperator op, Expression * exp ) :
-                m_Expression( new AssignmentExpression( lvexp, op, exp ) )
-            {
+        DoWhileStatement *Clone() const override;
 
-            }
+        Base::ObjectRef< Expression > m_Condition;
+        Base::ObjectRef< Statement > m_Statement;
+    };
 
-            virtual AssignmentStatement * Clone() const override;
+    struct ForStatement : Statement
+    {
+        ForStatement()
+        {
+        }
+        ForStatement( Statement *init_statement,
+            Expression *equality_expression,
+            Expression *modify_expression,
+            Statement *statement )
+            : m_InitStatement( init_statement ),
+              m_Statement( statement ),
+              m_EqualityExpression( equality_expression ),
+              m_ModifyExpression( modify_expression )
+        {
+        }
 
-            Base::ObjectRef<AssignmentExpression>
-                m_Expression;
-        };
+        ForStatement *Clone() const override;
 
-    }
+        Base::ObjectRef< Statement > m_InitStatement, m_Statement;
+        Base::ObjectRef< Expression > m_EqualityExpression, m_ModifyExpression;
+    };
 
-#endif
+    struct BlockStatement : Statement
+    {
+        AST_HandleVisitor();
+
+        void AddStatement( Statement *statement )
+        {
+            m_StatementTable.emplace_back( statement );
+        }
+
+        BlockStatement *Clone() const override;
+
+        std::vector< Base::ObjectRef< Statement > > m_StatementTable;
+    };
+
+    struct VariableDeclarationStatement : Statement
+    {
+        AST_HandleVisitor();
+
+        void SetType( Type *type )
+        {
+            assert( type );
+            m_Type = type;
+        }
+        void AddStorageClass( StorageClass *storage_class )
+        {
+            assert( storage_class );
+            m_StorageClass.emplace_back( storage_class );
+        }
+        void AddTypeModifier( TypeModifier *type_modifier )
+        {
+            assert( type_modifier );
+            m_TypeModifier.emplace_back( type_modifier );
+        }
+        void AddBody( VariableDeclarationBody *body )
+        {
+            assert( body );
+            m_BodyTable.emplace_back( body );
+        }
+
+        VariableDeclarationStatement *Clone() const override;
+
+        Base::ObjectRef< Type > m_Type;
+        std::vector< Base::ObjectRef< StorageClass > > m_StorageClass;
+        std::vector< Base::ObjectRef< TypeModifier > > m_TypeModifier;
+        std::vector< Base::ObjectRef< VariableDeclarationBody > > m_BodyTable;
+    };
+
+    struct AssignmentStatement : Statement
+    {
+        AST_HandleVisitor();
+
+        AssignmentStatement()
+        {
+        }
+        AssignmentStatement( LValueExpression *lvexp, AssignmentOperator op, Expression *exp )
+            : m_Expression( new AssignmentExpression( lvexp, op, exp ) )
+        {
+        }
+
+        AssignmentStatement *Clone() const override;
+
+        Base::ObjectRef< AssignmentExpression > m_Expression;
+    };
+
+}

@@ -2,23 +2,23 @@
 
 namespace AST
 {
-    #define CloneTable( _Type_, _member_ ) \
-        { \
-            std::vector< Base::ObjectRef<_Type_> >::const_iterator it, end; \
-            \
-            it = _member_.begin(); \
-            end = _member_.end(); \
-            for( ; it!=end; ++it ) \
-            { \
-                clone->_member_.push_back( (*it)->Clone() ); \
-            } \
-        }
+#define CloneTable( _Type_, _member_ )                                                                                 \
+    {                                                                                                                  \
+        std::vector< Base::ObjectRef< _Type_ > >::const_iterator it, end;                                              \
+                                                                                                                       \
+        it = _member_.begin();                                                                                         \
+        end = _member_.end();                                                                                          \
+        for ( ; it != end; ++it )                                                                                      \
+        {                                                                                                              \
+            clone->_member_.push_back( ( *it )->Clone() );                                                             \
+        }                                                                                                              \
+    }
 
-    ReturnStatement * ReturnStatement::Clone() const
+    ReturnStatement *ReturnStatement::Clone() const
     {
-        ReturnStatement * clone = new ReturnStatement;
+        ReturnStatement *clone = new ReturnStatement;
 
-        if( m_Expression )
+        if ( m_Expression )
         {
             clone->m_Expression = m_Expression->Clone();
         }
@@ -26,11 +26,11 @@ namespace AST
         return clone;
     }
 
-    ExpressionStatement * ExpressionStatement::Clone() const
+    ExpressionStatement *ExpressionStatement::Clone() const
     {
-        ExpressionStatement * clone = new ExpressionStatement;
+        ExpressionStatement *clone = new ExpressionStatement;
 
-        if( m_Expression )
+        if ( m_Expression )
         {
             clone->m_Expression = m_Expression->Clone();
         }
@@ -38,14 +38,14 @@ namespace AST
         return clone;
     }
 
-    IfStatement * IfStatement::Clone() const
+    IfStatement *IfStatement::Clone() const
     {
-        IfStatement * clone = new IfStatement;
+        IfStatement *clone = new IfStatement;
 
         clone->m_Condition = m_Condition->Clone();
         clone->m_ThenStatement = m_ThenStatement->Clone();
 
-        if( m_ElseStatement )
+        if ( m_ElseStatement )
         {
             clone->m_ElseStatement = m_ElseStatement->Clone();
         }
@@ -53,9 +53,9 @@ namespace AST
         return clone;
     }
 
-    WhileStatement * WhileStatement::Clone() const
+    WhileStatement *WhileStatement::Clone() const
     {
-        WhileStatement * clone = new WhileStatement;
+        WhileStatement *clone = new WhileStatement;
 
         clone->m_Condition = m_Condition->Clone();
         clone->m_Statement = m_Statement->Clone();
@@ -63,9 +63,9 @@ namespace AST
         return clone;
     }
 
-    DoWhileStatement * DoWhileStatement::Clone() const
+    DoWhileStatement *DoWhileStatement::Clone() const
     {
-        DoWhileStatement * clone = new DoWhileStatement;
+        DoWhileStatement *clone = new DoWhileStatement;
 
         clone->m_Condition = m_Condition->Clone();
         clone->m_Statement = m_Statement->Clone();
@@ -73,9 +73,9 @@ namespace AST
         return clone;
     }
 
-    ForStatement * ForStatement::Clone() const
+    ForStatement *ForStatement::Clone() const
     {
-        ForStatement * clone = new ForStatement;
+        ForStatement *clone = new ForStatement;
 
         clone->m_InitStatement = m_InitStatement->Clone();
         clone->m_Statement = m_Statement->Clone();
@@ -85,31 +85,30 @@ namespace AST
         return clone;
     }
 
-    BlockStatement * BlockStatement::Clone() const
+    BlockStatement *BlockStatement::Clone() const
     {
-        BlockStatement * clone = new BlockStatement;
+        BlockStatement *clone = new BlockStatement;
 
         CloneTable( Statement, m_StatementTable );
 
         return clone;
     }
 
-    VariableDeclarationStatement * VariableDeclarationStatement::Clone() const
+    VariableDeclarationStatement *VariableDeclarationStatement::Clone() const
     {
-        VariableDeclarationStatement * clone = new VariableDeclarationStatement;
+        VariableDeclarationStatement *clone = new VariableDeclarationStatement;
 
         clone->m_Type = m_Type->Clone();
 
-        CloneTable( StorageClass, m_StorageClass )
-        CloneTable( TypeModifier, m_TypeModifier )
-        CloneTable( VariableDeclarationBody, m_BodyTable )
+        CloneTable( StorageClass, m_StorageClass ) CloneTable( TypeModifier, m_TypeModifier )
+            CloneTable( VariableDeclarationBody, m_BodyTable )
 
-        return clone;
+                return clone;
     }
 
-    AssignmentStatement * AssignmentStatement::Clone() const
+    AssignmentStatement *AssignmentStatement::Clone() const
     {
-        AssignmentStatement * clone = new AssignmentStatement;
+        AssignmentStatement *clone = new AssignmentStatement;
 
         clone->m_Expression = m_Expression->Clone();
 

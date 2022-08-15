@@ -6,11 +6,7 @@ namespace Base
 {
     class ConsoleErrorHandler : public ErrorHandlerInterface
     {
-    public:
-
-        void ReportError(
-            const std::string & message,
-            const std::string & file
-            ) override;
+      public:
+        void ReportError( const std::string &message, const std::string &file ) override;
     };
 }

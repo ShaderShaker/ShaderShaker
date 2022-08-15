@@ -1,51 +1,39 @@
-#ifndef GRAPH_H
-    #define GRAPH_H
+#pragma once
 
-    #include <vector>
-    #include <string>
-    #include <map>
-    #include <set>
-    #include "graph_node.h"
+#include <vector>
+#include <string>
+#include <map>
+#include <set>
+#include "graph_node.h"
 
-    namespace Generation
+namespace Generation
+{
+    class Graph : public Base::Object
     {
-        class Graph : public Base::Object
+      public:
+        using Ref = Base::ObjectRef< Graph >;
+
+        void Initialize( const std::set< std::string > &semantic_set );
+        bool AddNode( GraphNode &node );
+
+        bool HasGeneratedSemantic( const std::string &semantic ) const;
+        bool UseGeneratedSemantic( GraphNode &node, const std::string &semantic );
+
+        template < typename Visitor >
+        void VisitDepthFirst( Visitor &visitor ) const
         {
-        public:
-
-            typedef Base::ObjectRef<Graph>
-                Ref;
-
-            void Initialize( const std::set<std::string> & semantic_set );
-            bool AddNode( GraphNode & node );
-
-            bool HasGeneratedSemantic( const std::string & semantic ) const;
-            bool UseGeneratedSemantic(
-                GraphNode & node,
-                const std::string & semantic
-                );
-
-            template< typename Visitor >
-            void VisitDepthFirst( Visitor & visitor ) const
+            for ( std::vector< GraphNode::Ref >::const_iterator it = m_RootNodeTable.begin(),
+                                                                end = m_RootNodeTable.end();
+                  it != end;
+                  ++it )
             {
-                for( std::vector<GraphNode::Ref>::const_iterator it = m_RootNodeTable.begin(), end = m_RootNodeTable.end();
-                    it != end;
-                    ++it )
-                {
-                    (*it)->VisitDepthFirst( visitor );
-                }
+                ( *it )->VisitDepthFirst( visitor );
             }
+        }
 
-        private:
-
-            std::vector<GraphNode::Ref>
-                m_RootNodeTable;
-            std::multimap<std::string, GraphNode::Ref >
-                m_NodeRequiringSemanticMap;
-            std::map<std::string, GraphNode::Ref >
-                m_NodeToLastOutputSemanticMap;
-
-        };
-    }
-
-#endif
+      private:
+        std::vector< GraphNode::Ref > m_RootNodeTable;
+        std::multimap< std::string, GraphNode::Ref > m_NodeRequiringSemanticMap;
+        std::map< std::string, GraphNode::Ref > m_NodeToLastOutputSemanticMap;
+    };
+}

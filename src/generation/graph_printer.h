@@ -1,30 +1,24 @@
-#ifndef GRAPH_PRINTER_H
-    #define GRAPH_PRINTER_H
+#pragma once
 
-    #include <ostream>
-    #include <set>
+#include <ostream>
+#include <set>
 
-    namespace Generation
+namespace Generation
+{
+    class GraphNode;
+
+    struct GraphPrinter
     {
-        class GraphNode;
+        GraphPrinter( std::ostream &output_stream );
+        void Initialize();
+        void Visit( const GraphNode &node );
+        void Finalize();
 
-        struct GraphPrinter
-        {
-            GraphPrinter( std::ostream & output_stream );
-            void Initialize();
-            void Visit( const GraphNode & node );
-            void Finalize();
+        std::ostream &m_OutputStream;
+        std::set< const GraphNode * > m_VisitedNodeSet;
 
-            std::ostream
-                & m_OutputStream;
-            std::set< const GraphNode * >
-                m_VisitedNodeSet;
+      private:
+        GraphPrinter &operator=( const GraphPrinter & );
+    };
 
-        private:
-
-            GraphPrinter & operator =( const GraphPrinter & );
-        };
-
-    }
-
-#endif
+}

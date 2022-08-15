@@ -1,13 +1,13 @@
-#ifndef HLSL_H
-    #define HLSL_H
+#pragma once
 
-    namespace AST{ struct TranslationUnit; }
-    #include <base/object_ref.h>
-    #include <string>
+namespace AST
+{
+    struct TranslationUnit;
+}
+#include <base/object_ref.h>
+#include <string>
 
-    namespace HLSL
-    {
-        Base::ObjectRef<AST::TranslationUnit> ParseHLSL( const std::string & filename );
-    }
-
-#endif
+namespace HLSL
+{
+    Base::ObjectRef< AST::TranslationUnit > ParseHLSL( const std::string &filename );
+}

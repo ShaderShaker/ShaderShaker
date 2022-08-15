@@ -6,20 +6,15 @@ namespace Generation
 {
     GraphNode::GraphNode()
     {
-
     }
 
-    GraphNode::GraphNode(
-        FunctionDefinition & definition
-        ) :
-        m_FunctionDefinition( &definition )
+    GraphNode::GraphNode( FunctionDefinition &definition ) : m_FunctionDefinition( &definition )
     {
-
     }
 
-    bool GraphNode::AddParent( GraphNode & parent )
+    bool GraphNode::AddParent( GraphNode &parent )
     {
-        if( parent.NodeExistsInParents( *this ) )
+        if ( parent.NodeExistsInParents( *this ) )
         {
             return false;
         }
@@ -30,31 +25,28 @@ namespace Generation
         return true;
     }
 
-    bool GraphNode::NodeExistsInParents(
-        const GraphNode & node
-        ) const
+    bool GraphNode::NodeExistsInParents( const GraphNode &node ) const
     {
-        std::queue<const GraphNode*>
-            node_to_visit;
+        std::queue< const GraphNode * > node_to_visit;
 
         node_to_visit.push( this );
 
-        while( !node_to_visit.empty() )
+        while ( !node_to_visit.empty() )
         {
-            const GraphNode * current = node_to_visit.front();
+            const GraphNode *current = node_to_visit.front();
 
             node_to_visit.pop();
 
-            if( &node == current )
+            if ( &node == current )
             {
                 return true;
             }
 
-            std::vector<GraphNode*>::const_iterator it, end;
+            std::vector< GraphNode * >::const_iterator it, end;
             it = current->m_Parents.begin();
             end = current->m_Parents.end();
 
-            for( ;it != end; ++it )
+            for ( ; it != end; ++it )
             {
                 node_to_visit.push( *it );
             }

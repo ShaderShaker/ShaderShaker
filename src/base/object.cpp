@@ -3,23 +3,23 @@
 
 namespace Base
 {
-	Object::~Object()
-	{
-		assert( m_ReferenceCount == 0 );
-	}
+    Object::~Object()
+    {
+        assert( m_ReferenceCount == 0 );
+    }
 
-	void Object::AddRef() const
-	{
-		++m_ReferenceCount;
-	}
+    void Object::AddRef() const
+    {
+        ++m_ReferenceCount;
+    }
 
-	void Object::RemoveRef() const
-	{
-		--m_ReferenceCount;
+    void Object::RemoveRef() const
+    {
+        --m_ReferenceCount;
 
-		if( m_ReferenceCount == 0 )
-		{
-			delete this;
-		}
-	}
+        if ( m_ReferenceCount == 0 )
+        {
+            delete this;
+        }
+    }
 }

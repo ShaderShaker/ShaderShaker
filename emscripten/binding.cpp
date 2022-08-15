@@ -13,8 +13,8 @@ namespace emscripten
     template<typename PointeeType>
     struct smart_ptr_trait<Base::ObjectRef<PointeeType>>
     {
-        typedef Base::ObjectRef<PointeeType> PointerType;
-        typedef PointeeType element_type;
+        using PointerType = Base::ObjectRef<PointeeType>;
+        using element_type = PointeeType;
 
         static element_type* get(const PointerType& ptr)
         {

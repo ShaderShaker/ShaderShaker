@@ -1,65 +1,56 @@
-#ifndef FUNCTION_NODE_H
-    #define FUNCTION_NODE_H
+#pragma once
 
-    namespace AST
+namespace AST
+{
+    struct Statement;
+    struct ArgumentList;
+    struct Argument;
+
+    struct FunctionDeclaration : GlobalDeclaration
     {
-        struct Statement;
-        struct ArgumentList;
-        struct Argument;
+        AST_HandleVisitor();
 
-        struct FunctionDeclaration : GlobalDeclaration
+        void AddStorageClass( StorageClass *storage )
         {
-            AST_HandleVisitor()
-
-            void AddStorageClass( StorageClass * storage ){ m_StorageClassTable.emplace_back( storage ); }
-            void AddStatement( Statement * statement ){ m_StatementTable.emplace_back( statement ); }
-
-            virtual FunctionDeclaration * Clone() const override;
-
-            Base::ObjectRef<Type>
-                m_Type;
-            std::string
-                m_Name,
-                m_Semantic;
-            Base::ObjectRef<ArgumentList>
-                m_ArgumentList;
-            std::vector< Base::ObjectRef<StorageClass> >
-                m_StorageClassTable;
-            std::vector< Base::ObjectRef<Statement> >
-                m_StatementTable;
-
-        };
-
-        struct ArgumentList : Node
+            m_StorageClassTable.emplace_back( storage );
+        }
+        void AddStatement( Statement *statement )
         {
-            AST_HandleVisitor()
+            m_StatementTable.emplace_back( statement );
+        }
 
-            void AddArgument( Argument * argument ){ m_ArgumentTable.emplace_back( argument ); }
+        FunctionDeclaration *Clone() const override;
 
-            virtual ArgumentList * Clone() const override;
+        Base::ObjectRef< Type > m_Type;
+        std::string m_Name, m_Semantic;
+        Base::ObjectRef< ArgumentList > m_ArgumentList;
+        std::vector< Base::ObjectRef< StorageClass > > m_StorageClassTable;
+        std::vector< Base::ObjectRef< Statement > > m_StatementTable;
+    };
 
-            std::vector< Base::ObjectRef<Argument> >
-                m_ArgumentTable;
-        };
+    struct ArgumentList : Node
+    {
+        AST_HandleVisitor();
 
-        struct Argument : Node
+        void AddArgument( Argument *argument )
         {
-            AST_HandleVisitor()
+            m_ArgumentTable.emplace_back( argument );
+        }
 
-            virtual Argument * Clone() const override;
+        ArgumentList *Clone() const override;
 
-            Base::ObjectRef<Type>
-                m_Type;
-            std::string
-                m_Name,
-                m_InputModifier,
-                m_Semantic,
-                m_InterpolationModifier;
-            Base::ObjectRef<TypeModifier>
-                m_TypeModifier;
-            Base::ObjectRef<InitialValue>
-                m_InitialValue;
-        };
-    }
+        std::vector< Base::ObjectRef< Argument > > m_ArgumentTable;
+    };
 
-#endif
+    struct Argument : Node
+    {
+        AST_HandleVisitor();
+
+        Argument *Clone() const override;
+
+        Base::ObjectRef< Type > m_Type;
+        std::string m_Name, m_InputModifier, m_Semantic, m_InterpolationModifier;
+        Base::ObjectRef< TypeModifier > m_TypeModifier;
+        Base::ObjectRef< InitialValue > m_InitialValue;
+    };
+}

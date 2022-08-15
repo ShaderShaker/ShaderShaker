@@ -8,19 +8,13 @@ namespace Base
 {
     class ErrorHandlerInterface : public Object
     {
-    public:
-
-        typedef ObjectRef<ErrorHandlerInterface>
-            Ref;
+      public:
+        using Ref = ObjectRef< ErrorHandlerInterface >;
 
         virtual ~ErrorHandlerInterface()
         {
-
         }
 
-        virtual void ReportError(
-            const std::string & message,
-            const std::string & file
-            ) = 0;
+        virtual void ReportError( const std::string &message, const std::string &file ) = 0;
     };
 }

@@ -1,80 +1,57 @@
-#ifndef CODE_GENERATOR_H
-    #define CODE_GENERATOR_H
+#pragma once
 
-    #include <string>
-    #include <vector>
-    #include <ast/node.h>
-    #include <base/object_ref.h>
-    #include <base/error_handler_interface.h>
-    #include "function_definition.h"
-    #include "graph.h"
+#include <string>
+#include <vector>
+#include <ast/node.h>
+#include <base/object_ref.h>
+#include <base/error_handler_interface.h>
+#include "function_definition.h"
+#include "graph.h"
 
-    namespace AST{struct FunctionDeclaration;}
+namespace AST
+{
+    struct FunctionDeclaration;
+}
 
-    namespace Generation
+namespace Generation
+{
+    struct CodeGeneratorHelper;
+
+    class CodeGenerator
     {
-        struct CodeGeneratorHelper;
 
-        class CodeGenerator
-        {
+      public:
+        void GenerateShader( Base::ObjectRef< AST::TranslationUnit > &generated_shader,
+            std::vector< std::string > &used_semantic_set,
+            const std::vector< Base::ObjectRef< FragmentDefinition > > &definition_table,
+            const std::vector< std::string > &semantic_table,
+            const std::vector< std::string > &input_semantic_set,
+            Base::ErrorHandlerInterface &error_handler );
 
-        public:
+      private:
+        bool FindMatchingFunction( FunctionDefinition::Ref &function,
+            std::set< FunctionDefinition::Ref > &used_function_set,
+            const std::set< std::string > &semantic_set,
+            const std::vector< FragmentDefinition::Ref > &definition_table );
 
-            void GenerateShader(
-                Base::ObjectRef<AST::TranslationUnit> & generated_shader,
-                std::vector<std::string> & used_semantic_set,
-                const std::vector<Base::ObjectRef<FragmentDefinition> > & definition_table,
-                const std::vector<std::string> & semantic_table,
-                const std::vector<std::string> & input_semantic_set,
-                Base::ErrorHandlerInterface & error_handler
-                );
+        void RemoveInputSemantics( std::set< std::string > &semantic_set );
 
-        private:
+        void AddArgumentTable( AST::ArgumentList &argument_list,
+            const CodeGeneratorHelper &helper,
+            const std::set< std::string > &semantic_set,
+            const std::string &input_modifier );
 
-            bool FindMatchingFunction(
-                FunctionDefinition::Ref & function,
-                std::set<FunctionDefinition::Ref> & used_function_set,
-                const std::set<std::string> & semantic_set,
-                const std::vector<FragmentDefinition::Ref > & definition_table
-                );
+        Base::ObjectRef< AST::FunctionDeclaration > GenerateCodeFromGraph( const Graph &graph );
 
-            void RemoveInputSemantics( std::set<std::string> & semantic_set );
+        Graph::Ref GenerateGraph( const std::vector< FragmentDefinition::Ref > &fragment_table );
 
-            void AddArgumentTable(
-                AST::ArgumentList & argument_list,
-                const CodeGeneratorHelper & helper,
-                const std::set<std::string> & semantic_set,
-                const std::string & input_modifier
-                );
+        void MergeTranslationUnit( AST::TranslationUnit &destination_translation_unit,
+            const std::vector< Base::ObjectRef< AST::TranslationUnit > > &translation_unit_table );
 
-            Base::ObjectRef<AST::FunctionDeclaration> GenerateCodeFromGraph(
-                const Graph & graph
-                );
+        bool ValidatesGraph( const Graph &graph ) const;
 
-            Graph::Ref GenerateGraph(
-                const std::vector<FragmentDefinition::Ref > & fragment_table
-                );
-
-            void MergeTranslationUnit(
-                AST::TranslationUnit & destination_translation_unit,
-                const std::vector<Base::ObjectRef<AST::TranslationUnit> > & translation_unit_table
-                );
-
-            bool ValidatesGraph(
-                const Graph & graph
-                ) const;
-
-            std::set<std::string>
-                m_OutputSemanticSet,
-                m_InputSemanticSet,
-                m_UsedSemanticSet;
-            std::vector<Base::ObjectRef<AST::TranslationUnit> >
-                m_UsedTranslationUnitSet;
-            mutable Base::ErrorHandlerInterface::Ref
-                m_ErrorHandler;
-
-        };
-    }
-
-
-#endif
+        std::set< std::string > m_OutputSemanticSet, m_InputSemanticSet, m_UsedSemanticSet;
+        std::vector< Base::ObjectRef< AST::TranslationUnit > > m_UsedTranslationUnitSet;
+        mutable Base::ErrorHandlerInterface::Ref m_ErrorHandler;
+    };
+}

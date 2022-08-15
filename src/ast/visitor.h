@@ -4,5 +4,5 @@
 
 namespace AST
 {
-    typedef VisitorBase<false> Visitor;
+    using Visitor = VisitorBase< false >;
 }

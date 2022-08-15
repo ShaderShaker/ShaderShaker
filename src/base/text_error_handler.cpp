@@ -1,12 +1,8 @@
 #include "text_error_handler.h"
 
-
 namespace Base
 {
-    void TextErrorHandler::ReportError(
-        const std::string & message,
-        const std::string & file
-        )
+    void TextErrorHandler::ReportError( const std::string &message, const std::string &file )
     {
         m_ErrorStream << file << ": " << message << std::endl;
     }

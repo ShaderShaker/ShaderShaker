@@ -1,40 +1,39 @@
-#ifndef ANNOTATION_NODE_H
-    #define ANNOTATION_NODE_H
+#pragma once
 
+namespace AST
+{
+    struct AnnotationEntry;
 
-    namespace AST
+    struct Annotations : Node
     {
-        struct AnnotationEntry;
+        AST_HandleVisitor();
 
-        struct Annotations : Node
+        using AnnotationTableType = std::vector< Base::ObjectRef< AnnotationEntry > >;
+
+        void AddEntry( AnnotationEntry *entry )
         {
-            AST_HandleVisitor()
+            m_AnnotationTable.emplace_back( entry );
+        }
 
-            typedef std::vector< Base::ObjectRef< AnnotationEntry> > AnnotationTableType;
+        Annotations *Clone() const override;
 
-            void AddEntry( AnnotationEntry * entry ) { m_AnnotationTable.emplace_back( entry ); }
+        AnnotationTableType m_AnnotationTable;
+    };
 
-            virtual Annotations * Clone() const override;
+    struct AnnotationEntry : Node
+    {
+        AST_HandleVisitor();
 
-            AnnotationTableType
-                m_AnnotationTable;
-        };
-
-        struct AnnotationEntry : Node
+        AnnotationEntry()
         {
-            AST_HandleVisitor()
+        }
+        AnnotationEntry( const std::string &type, const std::string &name, const std::string &value )
+            : m_Type( type ), m_Name( name ), m_Value( value )
+        {
+        }
 
-            AnnotationEntry() {}
-            AnnotationEntry( const std::string & type, const std::string & name, const std::string & value ) :
-                m_Type( type ), m_Name( name ), m_Value( value ) {}
+        AnnotationEntry *Clone() const override;
 
-            virtual AnnotationEntry * Clone() const override;
-
-            std::string
-                m_Type,
-                m_Name,
-                m_Value;
-        };
-    }
-
-#endif
+        std::string m_Type, m_Name, m_Value;
+    };
+}

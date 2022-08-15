@@ -2,23 +2,23 @@
 
 namespace AST
 {
-    #define CloneTable( _Type_, _member_ ) \
-        { \
-            std::vector< Base::ObjectRef<_Type_> >::const_iterator it, end; \
-            \
-            it = _member_.begin(); \
-            end = _member_.end(); \
-            for( ; it!=end; ++it ) \
-            { \
-                clone->_member_.push_back( (*it)->Clone() ); \
-            } \
-        }
+#define CloneTable( _Type_, _member_ )                                                                                 \
+    {                                                                                                                  \
+        std::vector< Base::ObjectRef< _Type_ > >::const_iterator it, end;                                              \
+                                                                                                                       \
+        it = _member_.begin();                                                                                         \
+        end = _member_.end();                                                                                          \
+        for ( ; it != end; ++it )                                                                                      \
+        {                                                                                                              \
+            clone->_member_.push_back( ( *it )->Clone() );                                                             \
+        }                                                                                                              \
+    }
 
-    FunctionDeclaration * FunctionDeclaration::Clone() const
+    FunctionDeclaration *FunctionDeclaration::Clone() const
     {
-        FunctionDeclaration * clone = new FunctionDeclaration;
+        FunctionDeclaration *clone = new FunctionDeclaration;
 
-        if( m_Type )
+        if ( m_Type )
         {
             clone->m_Type = m_Type->Clone();
         }
@@ -31,18 +31,18 @@ namespace AST
         return clone;
     }
 
-    ArgumentList * ArgumentList::Clone() const
+    ArgumentList *ArgumentList::Clone() const
     {
-        ArgumentList * clone = new ArgumentList;
+        ArgumentList *clone = new ArgumentList;
 
         CloneTable( Argument, m_ArgumentTable )
 
-        return clone;
+            return clone;
     }
 
-    Argument * Argument::Clone() const
+    Argument *Argument::Clone() const
     {
-        Argument * clone = new Argument;
+        Argument *clone = new Argument;
 
         clone->m_Type = m_Type->Clone();
         clone->m_Name = m_Name;
@@ -50,12 +50,12 @@ namespace AST
         clone->m_Semantic = m_Semantic;
         clone->m_InterpolationModifier = m_InterpolationModifier;
 
-        if( m_TypeModifier )
+        if ( m_TypeModifier )
         {
             clone->m_TypeModifier = m_TypeModifier->Clone();
         }
 
-        if( m_InitialValue )
+        if ( m_InitialValue )
         {
             clone->m_InitialValue = m_InitialValue->Clone();
         }

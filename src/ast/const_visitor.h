@@ -1,10 +1,8 @@
-#ifndef CONST_VISITOR_H
-    #define CONST_VISITOR_H
+#pragma once
 
-    #include "visitor_base.h"
+#include "visitor_base.h"
 
-    namespace AST
-    {
-        typedef VisitorBase<true> ConstVisitor;
-    }
-#endif
+namespace AST
+{
+    using ConstVisitor = VisitorBase< true >;
+}
