@@ -8,13 +8,14 @@ namespace Generation
 {
     namespace
     {
+        template < typename T >
         struct Counter
         {
             using iterator_category = std::output_iterator_tag;
-            using value_type = Counter;
+            using value_type = T;
             using difference_type = std::ptrdiff_t;
-            using pointer = Counter *;
-            using reference = Counter &;
+            using pointer = T *;
+            using reference = T &;
 
             size_t *m_Count;
 
@@ -22,21 +23,24 @@ namespace Generation
             {
             }
 
-            template < typename T >
+            Counter( const Counter &counter ) = default;
+            Counter( Counter &&counter ) = default;
+            Counter &operator=( const Counter &counter ) = default;
+            Counter &operator=( Counter &&counter ) = default;
+
             void operator()( T & /*value*/ )
             {
                 ++*m_Count;
             }
 
-            template < typename T >
             void operator=( T & /*value*/ )
             {
                 ++*m_Count;
             }
 
-            Counter &operator*()
+            T operator*()
             {
-                return *this;
+                return {};
             }
             Counter &operator++()
             {
@@ -141,13 +145,13 @@ namespace Generation
                 semantic_set.end(),
                 ( *it )->GetOutSemanticSet().begin(),
                 ( *it )->GetOutSemanticSet().end(),
-                Counter( &count ) );
+                Counter< std::string >( &count ) );
 
             std::set_intersection( semantic_set.begin(),
                 semantic_set.end(),
                 ( *it )->GetInOutSemanticSet().begin(),
                 ( *it )->GetInOutSemanticSet().end(),
-                Counter( &count ) );
+                Counter< std::string >( &count ) );
 
             if ( count > 0 )
             {
