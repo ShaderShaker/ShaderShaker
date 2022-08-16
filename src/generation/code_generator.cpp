@@ -84,7 +84,7 @@ namespace Generation
             for ( ; it != end; ++it )
             {
                 argument_expression_list->m_ExpressionList.push_back(
-                    new AST::VariableExpression( ( *it )->m_Semantic ) );
+                    new AST::VariableExpression( "__semantic_" + ( *it )->m_Semantic ) );
             }
         }
 
@@ -97,8 +97,8 @@ namespace Generation
         }
         else
         {
-            return new AST::AssignmentStatement(
-                new AST::LValueExpression( new AST::VariableExpression( function_declaration.m_Semantic ) ),
+            return new AST::AssignmentStatement( new AST::LValueExpression( new AST::VariableExpression(
+                                                     "__semantic_" + function_declaration.m_Semantic ) ),
                 AST::AssignmentOperator_Assign,
                 &*call_expression );
         }
@@ -134,7 +134,7 @@ namespace Generation
                         new AST::VariableDeclarationStatement;
 
                     variable->SetType( new AST::Type( node.GetFunctionDefinition().GetSemanticType( *it ) ) );
-                    variable->AddBody( new AST::VariableDeclarationBody( *it ) );
+                    variable->AddBody( new AST::VariableDeclarationBody( "__semantic_" + * it ) );
 
                     m_StatementTable.push_back( &*variable );
                 }
@@ -196,7 +196,7 @@ namespace Generation
 
             Base::ObjectRef< AST::Argument > argument = new AST::Argument;
             argument->m_Type = new AST::Type( type_it->second );
-            argument->m_Name = ( *it );
+            argument->m_Name = "__semantic_" + ( *it );
             argument->m_Semantic = ( *it );
             argument->m_InputModifier = input_modifier;
 

@@ -30,12 +30,8 @@ namespace AST
         if ( !variable_declaration.m_TypeModifier.empty() )
             m_Stream << " ";
 
-        m_Stream << variable_declaration.m_Type->m_Name;
-
-        m_Stream << inc_ind << endl_ind;
+        m_Stream << variable_declaration.m_Type->m_Name << " ";
         VisitTable( *this, variable_declaration.m_BodyTable, ",", true );
-        m_Stream << dec_ind;
-
         m_Stream << ";" << endl_ind;
     }
 
@@ -328,9 +324,8 @@ namespace AST
 
         m_Stream << statement.m_Type->m_Name;
 
-        m_Stream << inc_ind << endl_ind;
+        m_Stream << " ";
         VisitTable( *this, statement.m_BodyTable, ",", true );
-        m_Stream << dec_ind;
         m_Stream << ";" << endl_ind;
     }
 

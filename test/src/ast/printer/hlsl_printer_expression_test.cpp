@@ -8,12 +8,9 @@ TEST_CASE( "Literals are printed", "[ast][hlsl][printer]" )
 
     SECTION( "Integers are printed" )
     {
-        AST::LiteralExpression
-            node( AST::LiteralExpression::Int, "123" );
-        std::ostringstream
-            output;
-        AST::HLSLPrinter
-            printer( output );
+        AST::LiteralExpression node( AST::LiteralExpression::Int, "123" );
+        std::ostringstream output;
+        AST::HLSLPrinter printer( output );
 
         node.Visit( printer );
 
@@ -22,12 +19,9 @@ TEST_CASE( "Literals are printed", "[ast][hlsl][printer]" )
 
     SECTION( "Floats are printed" )
     {
-        AST::LiteralExpression
-            node( AST::LiteralExpression::Float, "123.4f" );
-        std::ostringstream
-            output;
-        AST::HLSLPrinter
-            printer( output );
+        AST::LiteralExpression node( AST::LiteralExpression::Float, "123.4f" );
+        std::ostringstream output;
+        AST::HLSLPrinter printer( output );
 
         node.Visit( printer );
 
@@ -36,12 +30,9 @@ TEST_CASE( "Literals are printed", "[ast][hlsl][printer]" )
 
     SECTION( "Booleans are printed" )
     {
-        AST::LiteralExpression
-            node( AST::LiteralExpression::Int, "true" );
-        std::ostringstream
-            output;
-        AST::HLSLPrinter
-            printer( output );
+        AST::LiteralExpression node( AST::LiteralExpression::Int, "true" );
+        std::ostringstream output;
+        AST::HLSLPrinter printer( output );
 
         node.Visit( printer );
 
@@ -54,12 +45,9 @@ TEST_CASE( "Variables are printed", "[ast][hlsl][printer]" )
 
     SECTION( "Simple variables are printed" )
     {
-        AST::VariableExpression
-            node( "test" );
-        std::ostringstream
-            output;
-        AST::HLSLPrinter
-            printer( output );
+        AST::VariableExpression node( "test" );
+        std::ostringstream output;
+        AST::HLSLPrinter printer( output );
 
         node.Visit( printer );
 
@@ -68,12 +56,9 @@ TEST_CASE( "Variables are printed", "[ast][hlsl][printer]" )
 
     SECTION( "Subscripts are printed" )
     {
-        AST::VariableExpression
-            node( "test" );
-        std::ostringstream
-            output;
-        AST::HLSLPrinter
-            printer( output );
+        AST::VariableExpression node( "test" );
+        std::ostringstream output;
+        AST::HLSLPrinter printer( output );
 
         node.m_SubscriptExpression = new AST::LiteralExpression( AST::LiteralExpression::Int, "1" );
 
@@ -88,12 +73,10 @@ TEST_CASE( "Unary Operators are printed", "[ast][hlsl][printer]" )
 
     SECTION( "+ operator is printed" )
     {
-        AST::UnaryOperationExpression
-            node( AST::UnaryOperationExpression::Plus, new AST::LiteralExpression( AST::LiteralExpression::Int, "1" ) );
-        std::ostringstream
-            output;
-        AST::HLSLPrinter
-            printer( output );
+        AST::UnaryOperationExpression node(
+            AST::UnaryOperationExpression::Plus, new AST::LiteralExpression( AST::LiteralExpression::Int, "1" ) );
+        std::ostringstream output;
+        AST::HLSLPrinter printer( output );
 
         node.Visit( printer );
 
@@ -102,12 +85,10 @@ TEST_CASE( "Unary Operators are printed", "[ast][hlsl][printer]" )
 
     SECTION( "- operator is printed" )
     {
-        AST::UnaryOperationExpression
-            node( AST::UnaryOperationExpression::Minus, new AST::LiteralExpression( AST::LiteralExpression::Int, "1" ) );
-        std::ostringstream
-            output;
-        AST::HLSLPrinter
-            printer( output );
+        AST::UnaryOperationExpression node(
+            AST::UnaryOperationExpression::Minus, new AST::LiteralExpression( AST::LiteralExpression::Int, "1" ) );
+        std::ostringstream output;
+        AST::HLSLPrinter printer( output );
 
         node.Visit( printer );
 
@@ -116,12 +97,10 @@ TEST_CASE( "Unary Operators are printed", "[ast][hlsl][printer]" )
 
     SECTION( "! operator is printed" )
     {
-        AST::UnaryOperationExpression
-            node( AST::UnaryOperationExpression::Not, new AST::LiteralExpression( AST::LiteralExpression::Int, "1" ) );
-        std::ostringstream
-            output;
-        AST::HLSLPrinter
-            printer( output );
+        AST::UnaryOperationExpression node(
+            AST::UnaryOperationExpression::Not, new AST::LiteralExpression( AST::LiteralExpression::Int, "1" ) );
+        std::ostringstream output;
+        AST::HLSLPrinter printer( output );
 
         node.Visit( printer );
 
@@ -130,18 +109,15 @@ TEST_CASE( "Unary Operators are printed", "[ast][hlsl][printer]" )
 
     SECTION( "~ operator is printed" )
     {
-        AST::UnaryOperationExpression
-            node( AST::UnaryOperationExpression::BitwiseNot, new AST::LiteralExpression( AST::LiteralExpression::Int, "1" ) );
-        std::ostringstream
-            output;
-        AST::HLSLPrinter
-            printer( output );
+        AST::UnaryOperationExpression node(
+            AST::UnaryOperationExpression::BitwiseNot, new AST::LiteralExpression( AST::LiteralExpression::Int, "1" ) );
+        std::ostringstream output;
+        AST::HLSLPrinter printer( output );
 
         node.Visit( printer );
 
         CHECK( output.str() == "~( 1 )" );
     }
-
 }
 
 TEST_CASE( "Call expressions are printed", "[ast][hlsl][printer]" )
@@ -149,12 +125,9 @@ TEST_CASE( "Call expressions are printed", "[ast][hlsl][printer]" )
 
     SECTION( "Simple call is printed" )
     {
-        AST::CallExpression
-            node( "test", 0 );
-        std::ostringstream
-            output;
-        AST::HLSLPrinter
-            printer( output );
+        AST::CallExpression node( "test", 0 );
+        std::ostringstream output;
+        AST::HLSLPrinter printer( output );
 
         node.Visit( printer );
 
@@ -163,20 +136,16 @@ TEST_CASE( "Call expressions are printed", "[ast][hlsl][printer]" )
 
     SECTION( "Call with arguments is printed" )
     {
-        AST::ArgumentExpressionList
-            * argument_list;
+        AST::ArgumentExpressionList *argument_list;
 
         argument_list = new AST::ArgumentExpressionList();
         argument_list->AddExpression( new AST::VariableExpression( "a" ) );
         argument_list->AddExpression( new AST::VariableExpression( "b" ) );
         argument_list->AddExpression( new AST::VariableExpression( "c" ) );
 
-        AST::CallExpression
-            node( "test", argument_list );
-        std::ostringstream
-            output;
-        AST::HLSLPrinter
-            printer( output );
+        AST::CallExpression node( "test", argument_list );
+        std::ostringstream output;
+        AST::HLSLPrinter printer( output );
 
         node.Visit( printer );
 
@@ -189,12 +158,9 @@ TEST_CASE( "Postfix Suffixes are printed", "[ast][hlsl][printer]" )
 
     SECTION( "Swizzle is printed" )
     {
-        AST::Swizzle
-            node( "xyzw" );
-        std::ostringstream
-            output;
-        AST::HLSLPrinter
-            printer( output );
+        AST::Swizzle node( "xyzw" );
+        std::ostringstream output;
+        AST::HLSLPrinter printer( output );
 
         node.Visit( printer );
 
@@ -203,12 +169,9 @@ TEST_CASE( "Postfix Suffixes are printed", "[ast][hlsl][printer]" )
 
     SECTION( "Postfix Suffix Call is printed" )
     {
-        AST::PostfixSuffixCall
-            node( new AST::CallExpression( "test", 0 ), 0 );
-        std::ostringstream
-            output;
-        AST::HLSLPrinter
-            printer( output );
+        AST::PostfixSuffixCall node( new AST::CallExpression( "test", 0 ), 0 );
+        std::ostringstream output;
+        AST::HLSLPrinter printer( output );
 
         node.Visit( printer );
 
@@ -217,12 +180,9 @@ TEST_CASE( "Postfix Suffixes are printed", "[ast][hlsl][printer]" )
 
     SECTION( "Postfix Suffix Call is printed" )
     {
-        AST::PostfixSuffixCall
-            node( new AST::CallExpression( "test", 0 ), new AST::Swizzle( "xxxx" ) );
-        std::ostringstream
-            output;
-        AST::HLSLPrinter
-            printer( output );
+        AST::PostfixSuffixCall node( new AST::CallExpression( "test", 0 ), new AST::Swizzle( "xxxx" ) );
+        std::ostringstream output;
+        AST::HLSLPrinter printer( output );
 
         node.Visit( printer );
 
@@ -231,12 +191,9 @@ TEST_CASE( "Postfix Suffixes are printed", "[ast][hlsl][printer]" )
 
     SECTION( "Postfix Suffix Variable is printed" )
     {
-        AST::PostfixSuffixVariable
-            node( new AST::VariableExpression( "test" ), 0 );
-        std::ostringstream
-            output;
-        AST::HLSLPrinter
-            printer( output );
+        AST::PostfixSuffixVariable node( new AST::VariableExpression( "test" ), 0 );
+        std::ostringstream output;
+        AST::HLSLPrinter printer( output );
 
         node.Visit( printer );
 
@@ -245,12 +202,9 @@ TEST_CASE( "Postfix Suffixes are printed", "[ast][hlsl][printer]" )
 
     SECTION( "Postfix Suffix Variable is printed" )
     {
-        AST::PostfixSuffixVariable
-            node( new AST::VariableExpression( "test" ), new AST::Swizzle( "xxxx" ) );
-        std::ostringstream
-            output;
-        AST::HLSLPrinter
-            printer( output );
+        AST::PostfixSuffixVariable node( new AST::VariableExpression( "test" ), new AST::Swizzle( "xxxx" ) );
+        std::ostringstream output;
+        AST::HLSLPrinter printer( output );
 
         node.Visit( printer );
 
@@ -263,12 +217,9 @@ TEST_CASE( "Constructors are printed", "[ast][hlsl][printer]" )
 
     SECTION( "Simple constructor is printed" )
     {
-        AST::ConstructorExpression
-            node( new AST::IntrinsicType( "float4" ), 0 );
-        std::ostringstream
-            output;
-        AST::HLSLPrinter
-            printer( output );
+        AST::ConstructorExpression node( new AST::IntrinsicType( "float4" ), 0 );
+        std::ostringstream output;
+        AST::HLSLPrinter printer( output );
 
         node.Visit( printer );
 
@@ -277,8 +228,7 @@ TEST_CASE( "Constructors are printed", "[ast][hlsl][printer]" )
 
     SECTION( "Constructor with arguments is printed" )
     {
-        AST::ArgumentExpressionList
-            * argument_list;
+        AST::ArgumentExpressionList *argument_list;
 
         argument_list = new AST::ArgumentExpressionList();
         argument_list->AddExpression( new AST::VariableExpression( "a" ) );
@@ -286,12 +236,9 @@ TEST_CASE( "Constructors are printed", "[ast][hlsl][printer]" )
         argument_list->AddExpression( new AST::VariableExpression( "c" ) );
         argument_list->AddExpression( new AST::VariableExpression( "d" ) );
 
-        AST::ConstructorExpression
-            node( new AST::IntrinsicType( "float4" ), argument_list );
-        std::ostringstream
-            output;
-        AST::HLSLPrinter
-            printer( output );
+        AST::ConstructorExpression node( new AST::IntrinsicType( "float4" ), argument_list );
+        std::ostringstream output;
+        AST::HLSLPrinter printer( output );
 
         node.Visit( printer );
 
@@ -302,12 +249,9 @@ TEST_CASE( "Constructors are printed", "[ast][hlsl][printer]" )
 TEST_CASE( "Conditionnals expression are printed", "[ast][hlsl][printer]" )
 {
 
-    AST::ConditionalExpression
-        node;
-    std::ostringstream
-        output;
-    AST::HLSLPrinter
-        printer( output );
+    AST::ConditionalExpression node;
+    std::ostringstream output;
+    AST::HLSLPrinter printer( output );
 
     node.m_Condition = new AST::VariableExpression( "a" );
     node.m_IfTrue = new AST::VariableExpression( "b" );
@@ -322,12 +266,9 @@ TEST_CASE( "Types are printed", "[ast][hlsl][printer]" )
 {
     SECTION( "Intrinsic type is printed" )
     {
-        AST::IntrinsicType
-            node( "float4" );
-        std::ostringstream
-            output;
-        AST::HLSLPrinter
-            printer( output );
+        AST::IntrinsicType node( "float4" );
+        std::ostringstream output;
+        AST::HLSLPrinter printer( output );
 
         node.Visit( printer );
 
@@ -336,12 +277,9 @@ TEST_CASE( "Types are printed", "[ast][hlsl][printer]" )
 
     SECTION( "User defined type is printed" )
     {
-        AST::UserDefinedType
-            node( "VS_INPUT" );
-        std::ostringstream
-            output;
-        AST::HLSLPrinter
-            printer( output );
+        AST::UserDefinedType node( "VS_INPUT" );
+        std::ostringstream output;
+        AST::HLSLPrinter printer( output );
 
         node.Visit( printer );
 
@@ -350,12 +288,9 @@ TEST_CASE( "Types are printed", "[ast][hlsl][printer]" )
 
     SECTION( "Sampler type is printed" )
     {
-        AST::IntrinsicType
-            node( "texture2D" );
-        std::ostringstream
-            output;
-        AST::HLSLPrinter
-            printer( output );
+        AST::IntrinsicType node( "texture2D" );
+        std::ostringstream output;
+        AST::HLSLPrinter printer( output );
 
         node.Visit( printer );
 
@@ -367,12 +302,9 @@ TEST_CASE( "LValue expression are printed", "[ast][hlsl][printer]" )
 {
     SECTION( "LValue without postfix is printed" )
     {
-        AST::LValueExpression
-            node( new AST::VariableExpression( "X" ), 0 );
-        std::ostringstream
-            output;
-        AST::HLSLPrinter
-            printer( output );
+        AST::LValueExpression node( new AST::VariableExpression( "X" ), 0 );
+        std::ostringstream output;
+        AST::HLSLPrinter printer( output );
 
         node.Visit( printer );
 
@@ -381,12 +313,9 @@ TEST_CASE( "LValue expression are printed", "[ast][hlsl][printer]" )
 
     SECTION( "LValue with postfix is printed" )
     {
-        AST::LValueExpression
-            node( new AST::VariableExpression( "X" ), new AST::Swizzle( "xyzw" ) );
-        std::ostringstream
-            output;
-        AST::HLSLPrinter
-            printer( output );
+        AST::LValueExpression node( new AST::VariableExpression( "X" ), new AST::Swizzle( "xyzw" ) );
+        std::ostringstream output;
+        AST::HLSLPrinter printer( output );
 
         node.Visit( printer );
 
@@ -398,15 +327,10 @@ TEST_CASE( "Premodify expression are printed", "[ast][hlsl][printer]" )
 {
     SECTION( "++X is printed" )
     {
-        AST::PreModifyExpression
-            node(
-                AST::SelfModifyOperator_PlusPlus,
-                new AST::LValueExpression( new AST::VariableExpression( "X" ), 0 )
-                );
-        std::ostringstream
-            output;
-        AST::HLSLPrinter
-            printer( output );
+        AST::PreModifyExpression node(
+            AST::SelfModifyOperator_PlusPlus, new AST::LValueExpression( new AST::VariableExpression( "X" ), 0 ) );
+        std::ostringstream output;
+        AST::HLSLPrinter printer( output );
 
         node.Visit( printer );
 
@@ -415,15 +339,10 @@ TEST_CASE( "Premodify expression are printed", "[ast][hlsl][printer]" )
 
     SECTION( "--X is printed" )
     {
-        AST::PreModifyExpression
-            node(
-                AST::SelfModifyOperator_MinusMinus,
-                new AST::LValueExpression( new AST::VariableExpression( "X" ), 0 )
-                );
-        std::ostringstream
-            output;
-        AST::HLSLPrinter
-            printer( output );
+        AST::PreModifyExpression node(
+            AST::SelfModifyOperator_MinusMinus, new AST::LValueExpression( new AST::VariableExpression( "X" ), 0 ) );
+        std::ostringstream output;
+        AST::HLSLPrinter printer( output );
 
         node.Visit( printer );
 
@@ -435,15 +354,10 @@ TEST_CASE( "Postmodify expression are printed", "[ast][hlsl][printer]" )
 {
     SECTION( "X++ is printed" )
     {
-        AST::PostModifyExpression
-            node(
-                AST::SelfModifyOperator_PlusPlus,
-                new AST::LValueExpression( new AST::VariableExpression( "X" ), 0 )
-                );
-        std::ostringstream
-            output;
-        AST::HLSLPrinter
-            printer( output );
+        AST::PostModifyExpression node(
+            AST::SelfModifyOperator_PlusPlus, new AST::LValueExpression( new AST::VariableExpression( "X" ), 0 ) );
+        std::ostringstream output;
+        AST::HLSLPrinter printer( output );
 
         node.Visit( printer );
 
@@ -452,15 +366,10 @@ TEST_CASE( "Postmodify expression are printed", "[ast][hlsl][printer]" )
 
     SECTION( "--X is printed" )
     {
-        AST::PostModifyExpression
-            node(
-                AST::SelfModifyOperator_MinusMinus,
-                new AST::LValueExpression( new AST::VariableExpression( "X" ), 0 )
-                );
-        std::ostringstream
-            output;
-        AST::HLSLPrinter
-            printer( output );
+        AST::PostModifyExpression node(
+            AST::SelfModifyOperator_MinusMinus, new AST::LValueExpression( new AST::VariableExpression( "X" ), 0 ) );
+        std::ostringstream output;
+        AST::HLSLPrinter printer( output );
 
         node.Visit( printer );
 
@@ -470,16 +379,10 @@ TEST_CASE( "Postmodify expression are printed", "[ast][hlsl][printer]" )
 
 std::string PrintBinaryOperator( AST::BinaryOperationExpression::Operation operation )
 {
-    AST::BinaryOperationExpression
-        node(
-            operation,
-            new AST::VariableExpression( "X" ),
-            new AST::VariableExpression( "Y" )
-            );
-    std::ostringstream
-        output;
-    AST::HLSLPrinter
-        printer( output );
+    AST::BinaryOperationExpression node(
+        operation, new AST::VariableExpression( "X" ), new AST::VariableExpression( "Y" ) );
+    std::ostringstream output;
+    AST::HLSLPrinter printer( output );
 
     node.Visit( printer );
 
@@ -512,16 +415,9 @@ TEST_CASE( "Cast expression is printed", "[ast][hlsl][printer]" )
 {
     SECTION( "Simple type cast is printed" )
     {
-        AST::CastExpression
-            node(
-                new AST::UserDefinedType( "SomeType" ),
-                -1,
-                new AST::VariableExpression( "X" )
-                );
-        std::ostringstream
-            output;
-        AST::HLSLPrinter
-            printer( output );
+        AST::CastExpression node( new AST::UserDefinedType( "SomeType" ), -1, new AST::VariableExpression( "X" ) );
+        std::ostringstream output;
+        AST::HLSLPrinter printer( output );
 
         node.Visit( printer );
 
@@ -530,16 +426,9 @@ TEST_CASE( "Cast expression is printed", "[ast][hlsl][printer]" )
 
     SECTION( "Array like cast is printed" )
     {
-        AST::CastExpression
-            node(
-                new AST::UserDefinedType( "SomeType" ),
-                123,
-                new AST::VariableExpression( "X" )
-                );
-        std::ostringstream
-            output;
-        AST::HLSLPrinter
-            printer( output );
+        AST::CastExpression node( new AST::UserDefinedType( "SomeType" ), 123, new AST::VariableExpression( "X" ) );
+        std::ostringstream output;
+        AST::HLSLPrinter printer( output );
 
         node.Visit( printer );
 
@@ -549,16 +438,11 @@ TEST_CASE( "Cast expression is printed", "[ast][hlsl][printer]" )
 
 std::string PrintAssignmentExpression( AST::AssignmentOperator operation )
 {
-    AST::AssignmentExpression
-        node(
-            new AST::LValueExpression( new AST::VariableExpression( "X" ), 0 ),
-            operation,
-            new AST::VariableExpression( "Y" )
-            );
-    std::ostringstream
-        output;
-    AST::HLSLPrinter
-        printer( output );
+    AST::AssignmentExpression node( new AST::LValueExpression( new AST::VariableExpression( "X" ), 0 ),
+        operation,
+        new AST::VariableExpression( "Y" ) );
+    std::ostringstream output;
+    AST::HLSLPrinter printer( output );
 
     node.Visit( printer );
 
@@ -579,19 +463,13 @@ TEST_CASE( "Assignment expression are printed", "[ast][hlsl][printer]" )
     CHECK( PrintAssignmentExpression( AST::AssignmentOperator_RightShift ) == "X >>= Y" );
 }
 
-TEST_CASE( "Postfix expression are printed", "[ast][hlsl][printer]")
+TEST_CASE( "Postfix expression are printed", "[ast][hlsl][printer]" )
 {
     SECTION( "Empty postfix" )
     {
-        AST::PostfixExpression
-            node(
-                new AST::VariableExpression( "X" ),
-                0
-                );
-        std::ostringstream
-            output;
-        AST::HLSLPrinter
-            printer( output );
+        AST::PostfixExpression node( new AST::VariableExpression( "X" ), 0 );
+        std::ostringstream output;
+        AST::HLSLPrinter printer( output );
 
         node.Visit( printer );
 
@@ -600,19 +478,12 @@ TEST_CASE( "Postfix expression are printed", "[ast][hlsl][printer]")
 
     SECTION( "Non-empty postfix" )
     {
-        AST::PostfixExpression
-            node(
-                new AST::VariableExpression( "X" ),
-                new AST::Swizzle( "xyz" )
-                );
-        std::ostringstream
-            output;
-        AST::HLSLPrinter
-            printer( output );
+        AST::PostfixExpression node( new AST::VariableExpression( "X" ), new AST::Swizzle( "xyz" ) );
+        std::ostringstream output;
+        AST::HLSLPrinter printer( output );
 
         node.Visit( printer );
 
         CHECK( output.str() == "X.xyz" );
     }
-
 }

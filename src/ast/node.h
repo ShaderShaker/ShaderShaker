@@ -50,9 +50,9 @@ namespace AST
             visitor.Visit( *this );
         };
 
-        virtual ~Node()
-        {
-        }
+        ~Node() override = default;
+
+        Node &operator=( const Node & ) = delete;
 
         virtual Node *Clone() const = 0;
 
@@ -72,15 +72,13 @@ namespace AST
         const int m_Line;
 
       private:
-        Node &operator=( const Node & );
-
         static std::string s_CurrentFileName;
         static int s_CurrentLine;
     };
 
     struct GlobalDeclaration : Node
     {
-        virtual GlobalDeclaration *Clone() const override
+        GlobalDeclaration *Clone() const override
         {
             return 0;
         }
@@ -88,9 +86,9 @@ namespace AST
 
     struct TranslationUnit : Node
     {
-        AST_HandleVisitor()
+        AST_HandleVisitor();
 
-            void AddGlobalDeclaration( GlobalDeclaration *declaration )
+        void AddGlobalDeclaration( GlobalDeclaration *declaration )
         {
             assert( declaration );
             m_GlobalDeclarationTable.push_back( declaration );
@@ -102,7 +100,7 @@ namespace AST
             m_TechniqueTable.emplace_back( technique );
         }
 
-        virtual TranslationUnit *Clone() const override;
+        TranslationUnit *Clone() const override;
 
         std::vector< Base::ObjectRef< GlobalDeclaration > > m_GlobalDeclarationTable;
         std::vector< Base::ObjectRef< Technique > > m_TechniqueTable;
@@ -131,7 +129,7 @@ namespace AST
             m_BodyTable.emplace_back( body );
         }
 
-        virtual VariableDeclaration *Clone() const override;
+        VariableDeclaration *Clone() const override;
 
         Base::ObjectRef< Type > m_Type;
         std::vector< Base::ObjectRef< StorageClass > > m_StorageClass;
@@ -141,9 +139,9 @@ namespace AST
 
     struct TextureDeclaration : GlobalDeclaration
     {
-        AST_HandleVisitor()
+        AST_HandleVisitor();
 
-            TextureDeclaration()
+        TextureDeclaration()
         {
         }
         TextureDeclaration( const std::string &type,
@@ -154,7 +152,7 @@ namespace AST
         {
         }
 
-        virtual TextureDeclaration *Clone() const override;
+        TextureDeclaration *Clone() const override;
 
         std::string m_Type, m_Name, m_Semantic;
         Base::ObjectRef< Annotations > m_Annotations;
@@ -162,9 +160,9 @@ namespace AST
 
     struct SamplerDeclaration : GlobalDeclaration
     {
-        AST_HandleVisitor()
+        AST_HandleVisitor();
 
-            SamplerDeclaration()
+        SamplerDeclaration()
         {
         }
         SamplerDeclaration( const std::string &type, const std::string &name ) : m_Type( type ), m_Name( name )
@@ -176,7 +174,7 @@ namespace AST
             m_BodyTable.emplace_back( body );
         }
 
-        virtual SamplerDeclaration *Clone() const override;
+        SamplerDeclaration *Clone() const override;
 
         std::string m_Type, m_Name;
         std::vector< Base::ObjectRef< SamplerBody > > m_BodyTable;
@@ -184,21 +182,25 @@ namespace AST
 
     struct SamplerBody : Node
     {
-        AST_HandleVisitor() SamplerBody()
+        AST_HandleVisitor();
+
+        SamplerBody()
         {
         }
         SamplerBody( const std::string &name, const std::string &value ) : m_Name( name ), m_Value( value )
         {
         }
 
-        virtual SamplerBody *Clone() const override;
+        SamplerBody *Clone() const override;
 
         std::string m_Name, m_Value;
     };
 
     struct StructDefinition : GlobalDeclaration
     {
-        AST_HandleVisitor() StructDefinition()
+        AST_HandleVisitor();
+
+        StructDefinition()
         {
         }
         StructDefinition( const std::string &name ) : m_Name( name )
@@ -232,7 +234,7 @@ namespace AST
             m_MemberTable.emplace_back( Member( type, name, semantic, interpolation_modifier ) );
         }
 
-        virtual StructDefinition *Clone() const override;
+        StructDefinition *Clone() const override;
 
         std::string m_Name;
         std::vector< Member > m_MemberTable;
@@ -247,7 +249,7 @@ namespace AST
         {
         }
 
-        virtual Type *Clone() const override
+        Type *Clone() const override
         {
             return 0;
         }
@@ -266,21 +268,21 @@ namespace AST
         {
         }
 
-        virtual IntrinsicType *Clone() const override;
+        IntrinsicType *Clone() const override;
     };
 
     struct UserDefinedType : Type
     {
-        AST_HandleVisitor()
+        AST_HandleVisitor();
 
-            UserDefinedType()
+        UserDefinedType()
         {
         }
         UserDefinedType( const std::string &name ) : Type( name )
         {
         }
 
-        virtual UserDefinedType *Clone() const override;
+        UserDefinedType *Clone() const override;
     };
 
     struct SamplerType : Type
@@ -292,51 +294,50 @@ namespace AST
         {
         }
 
-        virtual SamplerType *Clone() const override;
+        SamplerType *Clone() const override;
     };
 
     struct TypeModifier : Node
     {
-        AST_HandleVisitor()
+        AST_HandleVisitor();
 
-            TypeModifier()
+        TypeModifier()
         {
         }
         TypeModifier( const std::string &modifier ) : m_Value( modifier )
         {
         }
 
-        virtual TypeModifier *Clone() const override;
+        TypeModifier *Clone() const override;
         std::string m_Value;
     };
 
     struct StorageClass : Node
     {
-        AST_HandleVisitor()
+        AST_HandleVisitor();
 
-            StorageClass()
+        StorageClass()
         {
         }
         StorageClass( const std::string &storage_class ) : m_Value( storage_class )
         {
         }
-        virtual StorageClass *Clone() const override;
+        StorageClass *Clone() const override;
         std::string m_Value;
     };
 
     struct VariableDeclarationBody : Node
     {
-        AST_HandleVisitor()
+        AST_HandleVisitor();
 
-            VariableDeclarationBody()
-            : m_ArraySize( 0 )
+        VariableDeclarationBody() : m_ArraySize( 0 )
         {
         }
         VariableDeclarationBody( const std::string &name ) : m_Name( name ), m_ArraySize( 0 )
         {
         }
 
-        virtual VariableDeclarationBody *Clone() const override;
+        VariableDeclarationBody *Clone() const override;
 
         std::string m_Name, m_Semantic;
         Base::ObjectRef< InitialValue > m_InitialValue;
@@ -346,10 +347,9 @@ namespace AST
 
     struct InitialValue : Node
     {
-        AST_HandleVisitor()
+        AST_HandleVisitor();
 
-            InitialValue()
-            : m_Vector( false )
+        InitialValue() : m_Vector( false )
         {
         }
 
@@ -359,7 +359,7 @@ namespace AST
             m_ExpressionTable.emplace_back( expression );
         }
 
-        virtual InitialValue *Clone() const override;
+        InitialValue *Clone() const override;
 
         std::vector< Base::ObjectRef< Expression > > m_ExpressionTable;
         bool m_Vector;

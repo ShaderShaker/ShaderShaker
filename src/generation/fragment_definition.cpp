@@ -40,6 +40,7 @@ namespace Generation
 
             T operator*()
             {
+                ++*m_Count;
                 return {};
             }
             Counter &operator++()

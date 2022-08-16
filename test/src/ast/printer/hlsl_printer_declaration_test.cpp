@@ -7,12 +7,9 @@ TEST_CASE( "Variable declarations are printed", "[ast][hlsl][printer]" )
 {
     SECTION( "Storage class modifiers are printed" )
     {
-        AST::StorageClass
-            node( "static" );
-        std::ostringstream
-            output;
-        AST::HLSLPrinter
-            printer( output );
+        AST::StorageClass node( "static" );
+        std::ostringstream output;
+        AST::HLSLPrinter printer( output );
 
         node.Visit( printer );
 
@@ -21,12 +18,9 @@ TEST_CASE( "Variable declarations are printed", "[ast][hlsl][printer]" )
 
     SECTION( "Multiple storage class modifiers are printed" )
     {
-        AST::VariableDeclaration
-            node;
-        std::ostringstream
-            output;
-        AST::HLSLPrinter
-            printer( output );
+        AST::VariableDeclaration node;
+        std::ostringstream output;
+        AST::HLSLPrinter printer( output );
 
         node.AddStorageClass( new AST::StorageClass( "extern" ) );
         node.AddStorageClass( new AST::StorageClass( "uniform" ) );
@@ -34,17 +28,14 @@ TEST_CASE( "Variable declarations are printed", "[ast][hlsl][printer]" )
 
         node.Visit( printer );
 
-        CHECK( output.str() == "extern uniform float\n\t;\n" );
+        CHECK( output.str() == "extern uniform float ;\n" );
     }
 
     SECTION( "Type modifiers are printed" )
     {
-        AST::TypeModifier
-            node( "const" );
-        std::ostringstream
-            output;
-        AST::HLSLPrinter
-            printer( output );
+        AST::TypeModifier node( "const" );
+        std::ostringstream output;
+        AST::HLSLPrinter printer( output );
 
         node.Visit( printer );
 
@@ -53,12 +44,9 @@ TEST_CASE( "Variable declarations are printed", "[ast][hlsl][printer]" )
 
     SECTION( "Multiple type modifiers are printed" )
     {
-        AST::VariableDeclaration
-            node;
-        std::ostringstream
-            output;
-        AST::HLSLPrinter
-            printer( output );
+        AST::VariableDeclaration node;
+        std::ostringstream output;
+        AST::HLSLPrinter printer( output );
 
         node.AddTypeModifier( new AST::TypeModifier( "const" ) );
         node.AddTypeModifier( new AST::TypeModifier( "precise" ) );
@@ -66,17 +54,14 @@ TEST_CASE( "Variable declarations are printed", "[ast][hlsl][printer]" )
 
         node.Visit( printer );
 
-        CHECK( output.str() == "const precise float\n\t;\n" );
+        CHECK( output.str() == "const precise float ;\n" );
     }
 
     SECTION( "Storage class modifier followed by type modifier are printed" )
     {
-        AST::VariableDeclaration
-            node;
-        std::ostringstream
-            output;
-        AST::HLSLPrinter
-            printer( output );
+        AST::VariableDeclaration node;
+        std::ostringstream output;
+        AST::HLSLPrinter printer( output );
 
         node.AddStorageClass( new AST::StorageClass( "uniform" ) );
         node.AddTypeModifier( new AST::TypeModifier( "const" ) );
@@ -84,48 +69,39 @@ TEST_CASE( "Variable declarations are printed", "[ast][hlsl][printer]" )
 
         node.Visit( printer );
 
-        CHECK( output.str() == "uniform const float\n\t;\n" );
+        CHECK( output.str() == "uniform const float ;\n" );
     }
 
     SECTION( "Types are printed" )
     {
-        AST::VariableDeclaration
-            node;
-        std::ostringstream
-            output;
-        AST::HLSLPrinter
-            printer( output );
+        AST::VariableDeclaration node;
+        std::ostringstream output;
+        AST::HLSLPrinter printer( output );
 
         node.SetType( new AST::Type( "float4" ) );
         node.AddBody( new AST::VariableDeclarationBody( "view_space_light_direction" ) );
         node.m_BodyTable.back()->m_ArraySize = 0;
         node.Visit( printer );
 
-        CHECK( output.str() == "float4\n\tview_space_light_direction;\n" );
+        CHECK( output.str() == "float4 view_space_light_direction;\n" );
     }
 
     SECTION( "Variable declaration names are printed" )
     {
-        AST::VariableDeclarationBody
-            node( "view_space_light_direction" );
-        std::ostringstream
-            output;
-        AST::HLSLPrinter
-            printer( output );
+        AST::VariableDeclarationBody node( "view_space_light_direction" );
+        std::ostringstream output;
+        AST::HLSLPrinter printer( output );
 
         node.Visit( printer );
 
         CHECK( output.str() == "view_space_light_direction" );
     }
-    
+
     SECTION( "Variable declaration semantics are printed" )
     {
-        AST::VariableDeclarationBody
-            node( "view_space_light_direction" );
-        std::ostringstream
-            output;
-        AST::HLSLPrinter
-            printer( output );
+        AST::VariableDeclarationBody node( "view_space_light_direction" );
+        std::ostringstream output;
+        AST::HLSLPrinter printer( output );
 
         node.m_Semantic = "LIGHT_DIRECTION";
 
@@ -136,12 +112,9 @@ TEST_CASE( "Variable declarations are printed", "[ast][hlsl][printer]" )
 
     SECTION( "Variable declaration initial scalar values are printed" )
     {
-        AST::VariableDeclarationBody
-            node( "intensity" );
-        std::ostringstream
-            output;
-        AST::HLSLPrinter
-            printer( output );
+        AST::VariableDeclarationBody node( "intensity" );
+        std::ostringstream output;
+        AST::HLSLPrinter printer( output );
 
         node.m_InitialValue = new AST::InitialValue();
         node.m_InitialValue->AddExpression( new AST::LiteralExpression( AST::LiteralExpression::Float, "123.4f" ) );
@@ -153,12 +126,9 @@ TEST_CASE( "Variable declarations are printed", "[ast][hlsl][printer]" )
 
     SECTION( "Variable declaration initial vector values are printed" )
     {
-        AST::VariableDeclarationBody
-            node( "view_space_light_direction" );
-        std::ostringstream
-            output;
-        AST::HLSLPrinter
-            printer( output );
+        AST::VariableDeclarationBody node( "view_space_light_direction" );
+        std::ostringstream output;
+        AST::HLSLPrinter printer( output );
 
         node.m_InitialValue = new AST::InitialValue();
         node.m_InitialValue->m_Vector = true;
@@ -174,12 +144,9 @@ TEST_CASE( "Variable declarations are printed", "[ast][hlsl][printer]" )
 
     SECTION( "Annotation entries are printed" )
     {
-        AST::AnnotationEntry
-            node( "float", "minimum", "0.0f" );
-        std::ostringstream
-            output;
-        AST::HLSLPrinter
-            printer( output );
+        AST::AnnotationEntry node( "float", "minimum", "0.0f" );
+        std::ostringstream output;
+        AST::HLSLPrinter printer( output );
 
         node.Visit( printer );
 
@@ -188,12 +155,9 @@ TEST_CASE( "Variable declarations are printed", "[ast][hlsl][printer]" )
 
     SECTION( "Annotations are printed" )
     {
-        AST::Annotations
-            node;
-        std::ostringstream
-            output;
-        AST::HLSLPrinter
-            printer( output );
+        AST::Annotations node;
+        std::ostringstream output;
+        AST::HLSLPrinter printer( output );
 
         node.AddEntry( new AST::AnnotationEntry( "float", "minimum", "0.0f" ) );
         node.AddEntry( new AST::AnnotationEntry( "float", "maximum", "1.0f" ) );
@@ -205,12 +169,9 @@ TEST_CASE( "Variable declarations are printed", "[ast][hlsl][printer]" )
 
     SECTION( "Variable declaration annotations are printed" )
     {
-        AST::VariableDeclarationBody
-            node( "intensity" );
-        std::ostringstream
-            output;
-        AST::HLSLPrinter
-            printer( output );
+        AST::VariableDeclarationBody node( "intensity" );
+        std::ostringstream output;
+        AST::HLSLPrinter printer( output );
 
         node.m_Annotations = new AST::Annotations();
         node.m_Annotations->AddEntry( new AST::AnnotationEntry( "float", "minimum", "0.0f" ) );
@@ -223,12 +184,9 @@ TEST_CASE( "Variable declarations are printed", "[ast][hlsl][printer]" )
 
     SECTION( "Complete variable declarations are printed" )
     {
-        AST::VariableDeclaration
-            node;
-        std::ostringstream
-            output;
-        AST::HLSLPrinter
-            printer( output );
+        AST::VariableDeclaration node;
+        std::ostringstream output;
+        AST::HLSLPrinter printer( output );
 
         node.AddStorageClass( new AST::StorageClass( "uniform" ) );
         node.AddTypeModifier( new AST::TypeModifier( "const" ) );
@@ -246,6 +204,7 @@ TEST_CASE( "Variable declarations are printed", "[ast][hlsl][printer]" )
 
         node.Visit( printer );
 
-        CHECK( output.str() == "uniform const float\n\tintensity[4] : INTENSITY < float step = 0.01f; >,\n\tfresnel : FRESNEL;\n" );
+        CHECK( output.str() ==
+               "uniform const float intensity[4] : INTENSITY < float step = 0.01f; >,\nfresnel : FRESNEL;\n" );
     }
 }

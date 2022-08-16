@@ -7,12 +7,9 @@ TEST_CASE( "Returns are printed", "[ast][hlsl][printer]" )
 {
     SECTION( "Return is printed" )
     {
-        AST::ReturnStatement
-            node;
-        std::ostringstream
-            output;
-        AST::HLSLPrinter
-            printer( output );
+        AST::ReturnStatement node;
+        std::ostringstream output;
+        AST::HLSLPrinter printer( output );
 
         node.Visit( printer );
 
@@ -21,12 +18,9 @@ TEST_CASE( "Returns are printed", "[ast][hlsl][printer]" )
 
     SECTION( "Return with value is printed" )
     {
-        AST::ReturnStatement
-            node;
-        std::ostringstream
-            output;
-        AST::HLSLPrinter
-            printer( output );
+        AST::ReturnStatement node;
+        std::ostringstream output;
+        AST::HLSLPrinter printer( output );
 
         node.m_Expression = new AST::VariableExpression( "a" );
 
@@ -40,12 +34,9 @@ TEST_CASE( "Jumps are printed", "[ast][hlsl][printer]" )
 {
     SECTION( "Break is printed" )
     {
-        AST::BreakStatement
-            node;
-        std::ostringstream
-            output;
-        AST::HLSLPrinter
-            printer( output );
+        AST::BreakStatement node;
+        std::ostringstream output;
+        AST::HLSLPrinter printer( output );
 
         node.Visit( printer );
 
@@ -54,12 +45,9 @@ TEST_CASE( "Jumps are printed", "[ast][hlsl][printer]" )
 
     SECTION( "Continue is printed" )
     {
-        AST::ContinueStatement
-            node;
-        std::ostringstream
-            output;
-        AST::HLSLPrinter
-            printer( output );
+        AST::ContinueStatement node;
+        std::ostringstream output;
+        AST::HLSLPrinter printer( output );
 
         node.Visit( printer );
 
@@ -68,12 +56,9 @@ TEST_CASE( "Jumps are printed", "[ast][hlsl][printer]" )
 
     SECTION( "Discard is printed" )
     {
-        AST::DiscardStatement
-            node;
-        std::ostringstream
-            output;
-        AST::HLSLPrinter
-            printer( output );
+        AST::DiscardStatement node;
+        std::ostringstream output;
+        AST::HLSLPrinter printer( output );
 
         node.Visit( printer );
 
@@ -83,12 +68,9 @@ TEST_CASE( "Jumps are printed", "[ast][hlsl][printer]" )
 
 TEST_CASE( "Empty statement is printed", "[ast][hlsl][printer]" )
 {
-    AST::EmptyStatement
-        node;
-    std::ostringstream
-        output;
-    AST::HLSLPrinter
-        printer( output );
+    AST::EmptyStatement node;
+    std::ostringstream output;
+    AST::HLSLPrinter printer( output );
 
     node.Visit( printer );
 
@@ -97,12 +79,9 @@ TEST_CASE( "Empty statement is printed", "[ast][hlsl][printer]" )
 
 TEST_CASE( "Expression statement is printed", "[ast][hlsl][printer]" )
 {
-    AST::ExpressionStatement
-        node( new AST::CallExpression( "SomeFunction", 0 ) );
-    std::ostringstream
-        output;
-    AST::HLSLPrinter
-        printer( output );
+    AST::ExpressionStatement node( new AST::CallExpression( "SomeFunction", 0 ) );
+    std::ostringstream output;
+    AST::HLSLPrinter printer( output );
 
     node.Visit( printer );
 
@@ -113,16 +92,9 @@ TEST_CASE( "If statements are printed", "[ast][hlsl][printer]" )
 {
     SECTION( "If is printed" )
     {
-        AST::IfStatement
-            node(
-                new AST::VariableExpression( "a" ),
-                new AST::ReturnStatement(),
-                0
-                );
-        std::ostringstream
-            output;
-        AST::HLSLPrinter
-            printer( output );
+        AST::IfStatement node( new AST::VariableExpression( "a" ), new AST::ReturnStatement(), 0 );
+        std::ostringstream output;
+        AST::HLSLPrinter printer( output );
 
         node.Visit( printer );
 
@@ -131,36 +103,25 @@ TEST_CASE( "If statements are printed", "[ast][hlsl][printer]" )
 
     SECTION( "If with else is printed" )
     {
-        AST::IfStatement
-            node(
-                new AST::VariableExpression( "a" ),
-                new AST::ReturnStatement( new AST::VariableExpression( "b" ) ),
-                new AST::ReturnStatement( new AST::VariableExpression( "c" ) )
-                );
-        std::ostringstream
-            output;
-        AST::HLSLPrinter
-            printer( output );
+        AST::IfStatement node( new AST::VariableExpression( "a" ),
+            new AST::ReturnStatement( new AST::VariableExpression( "b" ) ),
+            new AST::ReturnStatement( new AST::VariableExpression( "c" ) ) );
+        std::ostringstream output;
+        AST::HLSLPrinter printer( output );
 
         node.Visit( printer );
 
         CHECK( output.str() == "if( a ) return b;\nelse return c;\n" );
     }
-
 }
 
 TEST_CASE( "While statement is printed", "[ast][hlsl][printer]" )
 {
 
-    AST::WhileStatement
-        node(
-            new AST::VariableExpression( "a" ),
-            new AST::ExpressionStatement( new AST::CallExpression( "Function", 0 ) )
-            );
-    std::ostringstream
-        output;
-    AST::HLSLPrinter
-        printer( output );
+    AST::WhileStatement node(
+        new AST::VariableExpression( "a" ), new AST::ExpressionStatement( new AST::CallExpression( "Function", 0 ) ) );
+    std::ostringstream output;
+    AST::HLSLPrinter printer( output );
 
     node.Visit( printer );
 
@@ -170,15 +131,10 @@ TEST_CASE( "While statement is printed", "[ast][hlsl][printer]" )
 TEST_CASE( "Do While statement is printed", "[ast][hlsl][printer]" )
 {
 
-    AST::DoWhileStatement
-        node(
-            new AST::VariableExpression( "a" ),
-            new AST::ExpressionStatement( new AST::CallExpression( "Function", 0 ) )
-            );
-    std::ostringstream
-        output;
-    AST::HLSLPrinter
-        printer( output );
+    AST::DoWhileStatement node(
+        new AST::VariableExpression( "a" ), new AST::ExpressionStatement( new AST::CallExpression( "Function", 0 ) ) );
+    std::ostringstream output;
+    AST::HLSLPrinter printer( output );
 
     node.Visit( printer );
 
@@ -189,12 +145,9 @@ TEST_CASE( "Block statements are printed", "[ast][hlsl][printer]" )
 {
     SECTION( "Empty block is printed" )
     {
-        AST::BlockStatement
-            node;
-        std::ostringstream
-            output;
-        AST::HLSLPrinter
-            printer( output );
+        AST::BlockStatement node;
+        std::ostringstream output;
+        AST::HLSLPrinter printer( output );
 
         node.Visit( printer );
 
@@ -203,12 +156,9 @@ TEST_CASE( "Block statements are printed", "[ast][hlsl][printer]" )
 
     SECTION( "Block with one item is printed" )
     {
-        AST::BlockStatement
-            node;
-        std::ostringstream
-            output;
-        AST::HLSLPrinter
-            printer( output );
+        AST::BlockStatement node;
+        std::ostringstream output;
+        AST::HLSLPrinter printer( output );
 
         node.AddStatement( new AST::ExpressionStatement( new AST::CallExpression( "CallFunction", 0 ) ) );
 
@@ -219,12 +169,9 @@ TEST_CASE( "Block statements are printed", "[ast][hlsl][printer]" )
 
     SECTION( "Block with more item is printed" )
     {
-        AST::BlockStatement
-            node;
-        std::ostringstream
-            output;
-        AST::HLSLPrinter
-            printer( output );
+        AST::BlockStatement node;
+        std::ostringstream output;
+        AST::HLSLPrinter printer( output );
 
         node.AddStatement( new AST::ExpressionStatement( new AST::CallExpression( "CallFunction", 0 ) ) );
         node.AddStatement( new AST::ExpressionStatement( new AST::CallExpression( "CallFunction2", 0 ) ) );
