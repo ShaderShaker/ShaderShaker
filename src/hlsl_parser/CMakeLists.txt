@@ -4,7 +4,7 @@ add_library(hlslparser STATIC hlsl.cpp)
 
 include(ExternalAntlr4Cpp)
 
-set(ANTLR_EXECUTABLE /usr/local/Cellar/antlr/4.10.1/antlr-4.10.1-complete.jar)
+set(ANTLR_EXECUTABLE ${CMAKE_CURRENT_SOURCE_DIR}/../../contrib/antlr-4.10.1-complete.jar)
 find_package(ANTLR REQUIRED)
 antlr_target(HLSL HLSL.g4)
 

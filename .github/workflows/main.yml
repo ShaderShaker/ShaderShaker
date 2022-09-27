@@ -9,8 +9,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: generate_grammar
-      run: cd src/hlsl_parser && ./generate_parser.sh
     - name: configure
       run: mkdir build && cd build && cmake ..
     - name: build
