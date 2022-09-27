@@ -12,7 +12,7 @@ TEST_CASE( "Fragment definition are created", "[generation][fragment]" )
         const char code[] = "float4 test(): DiffuseColor{}";
         Parser parser( code, strlen( code ) );
 
-        Base::ObjectRef<AST::TranslationUnit> translation_unit( parser.m_Parser.translation_unit() );
+        Base::ObjectRef<AST::TranslationUnit> translation_unit( parser.m_Parser.translation_unit()->_unit );
 
         Base::ObjectRef<Generation::FragmentDefinition> fragment_definition;
 
@@ -35,7 +35,7 @@ TEST_CASE( "Fragment definition are created", "[generation][fragment]" )
         const char code[] = "float4 test( float some_value : DiffuseTexCoord ): DiffuseColor{}";
         Parser parser( code, strlen( code ) );
 
-        Base::ObjectRef<AST::TranslationUnit> translation_unit( parser.m_Parser.translation_unit() );
+        Base::ObjectRef<AST::TranslationUnit> translation_unit( parser.m_Parser.translation_unit()->_unit );
 
         Base::ObjectRef<Generation::FragmentDefinition> fragment_definition;
 
@@ -59,7 +59,7 @@ TEST_CASE( "Fragment definition are created", "[generation][fragment]" )
         const char code[] = "float4 test( in float some_value : DiffuseTexCoord ): DiffuseColor{}";
         Parser parser( code, strlen( code ) );
 
-        Base::ObjectRef<AST::TranslationUnit> translation_unit( parser.m_Parser.translation_unit() );
+        Base::ObjectRef<AST::TranslationUnit> translation_unit( parser.m_Parser.translation_unit()->_unit );
 
         Base::ObjectRef<Generation::FragmentDefinition> fragment_definition;
 
@@ -83,7 +83,7 @@ TEST_CASE( "Fragment definition are created", "[generation][fragment]" )
         const char code[] = "void test( out float some_value : DiffuseTexCoord ){}";
         Parser parser( code, strlen( code ) );
 
-        Base::ObjectRef<AST::TranslationUnit> translation_unit( parser.m_Parser.translation_unit() );
+        Base::ObjectRef<AST::TranslationUnit> translation_unit( parser.m_Parser.translation_unit()->_unit );
 
         Base::ObjectRef<Generation::FragmentDefinition> fragment_definition;
 
@@ -105,7 +105,7 @@ TEST_CASE( "Fragment definition are created", "[generation][fragment]" )
         const char code[] = "void test( inout float some_value : DiffuseTexCoord ){}";
         Parser parser( code, strlen( code ) );
 
-        Base::ObjectRef<AST::TranslationUnit> translation_unit( parser.m_Parser.translation_unit() );
+        Base::ObjectRef<AST::TranslationUnit> translation_unit( parser.m_Parser.translation_unit()->_unit );
 
         Base::ObjectRef<Generation::FragmentDefinition> fragment_definition;
 
@@ -127,7 +127,7 @@ TEST_CASE( "Fragment definition are created", "[generation][fragment]" )
         const char code[] = "float test( float some_value : DiffuseTexCoord ) : DiffuseTexCoord{}";
         Parser parser( code, strlen( code ) );
 
-        Base::ObjectRef<AST::TranslationUnit> translation_unit( parser.m_Parser.translation_unit() );
+        Base::ObjectRef<AST::TranslationUnit> translation_unit( parser.m_Parser.translation_unit()->_unit );
 
         Base::ObjectRef<Generation::FragmentDefinition> fragment_definition;
 
@@ -151,7 +151,7 @@ TEST_CASE( "Fragment definition are created", "[generation][fragment]" )
                             "inout float2 a : A, in float3 b : B, out float4 c : C ) : DiffuseTexCoord{}";
         Parser parser( code, strlen( code ) );
 
-        Base::ObjectRef<AST::TranslationUnit> translation_unit( parser.m_Parser.translation_unit() );
+        Base::ObjectRef<AST::TranslationUnit> translation_unit( parser.m_Parser.translation_unit()->_unit );
 
         Base::ObjectRef<Generation::FragmentDefinition> fragment_definition;
 

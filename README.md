@@ -1,4 +1,4 @@
-ShaderShaker2
+ShaderShaker2 ![](https://github.com/ShaderShaker/ShaderShaker/workflows/CI/badge.svg)
 =============
 
 Shader Shaker has been developed to solve our two main problems with shader development :
@@ -18,13 +18,9 @@ The architecture is simple :
 How to build
 ------------
 
-Premake is used as project generator. To build the project, follow those steps :
+Cmake is used as project generator. To build the project, follow those steps :
 
-    cd src/hlsl_parser               # go to HLSL parser directory
-    ./generate_parser.sh             # generate the HLSL parser (use .bat file for Windows systems)
-    mkdir build                      #
-    cmake -G "Unix Makefiles" ..     # You can use any generator
-    make                             # make the lib and the binary
-    make test                        # Run the tests
-
-
+    mkdir build                  #
+    cmake -G "Unix Makefiles" .. # You can use any generator
+    make                         # make the lib and the binary
+    make test                    # Run the tests

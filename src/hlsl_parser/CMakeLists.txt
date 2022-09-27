@@ -1,5 +1,17 @@
 
 
-target_sources(libshaker PUBLIC HLSLLexer.cpp HLSLParser.cpp hlsl.cpp hlsl_traits.cpp)
+add_library(hlslparser STATIC hlsl.cpp)
 
-target_include_directories(libshaker PUBLIC . ../../contrib/antlr)
+include(ExternalAntlr4Cpp)
+
+set(ANTLR_EXECUTABLE /usr/local/Cellar/antlr/4.10.1/antlr-4.10.1-complete.jar)
+find_package(ANTLR REQUIRED)
+antlr_target(HLSL HLSL.g4)
+
+target_include_directories(hlslparser PUBLIC ${ANTLR_HLSL_OUTPUT_DIR} .. ${ANTLR4_INCLUDE_DIRS})
+target_sources(hlslparser PRIVATE ${ANTLR_HLSL_OUTPUTS})
+target_compile_features(hlslparser PUBLIC cxx_std_17)
+target_link_libraries(hlslparser PUBLIC antlr4_static)
+
+
+target_link_libraries(libshaker hlslparser)

@@ -8,7 +8,7 @@ static AST::AssignmentOperator ParseOperator(
 {
     Parser parser( code, strlen( code ) );
 
-    return parser.m_Parser.assignment_operator();
+    return parser.m_Parser.assignment_operator()->op;
 }
 
 TEST_CASE( "Assignment operator are parsed", "[parser]" )
@@ -32,7 +32,7 @@ TEST_CASE( "Assignment statement are parsed", "[parser]" )
     const char code[] = " a += 2; ";
     Parser parser( code, sizeof( code ) - 1 );
 
-    statement = parser.m_Parser.assignment_statement();
+    statement = parser.m_Parser.assignment_statement()->_statement;
 
     REQUIRE( statement );
 

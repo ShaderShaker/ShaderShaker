@@ -26,7 +26,7 @@ namespace
     {
         Parser parser( code.c_str(), code.length() );
 
-        return parser.m_Parser.translation_unit();
+        return parser.m_Parser.translation_unit()->_unit;
     }
 
     static std::vector< Base::ObjectRef< Generation::FragmentDefinition > > GetFragmentTable(

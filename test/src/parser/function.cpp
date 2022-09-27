@@ -12,7 +12,7 @@ TEST_CASE( "Function are parsed", "[parser]" )
         const char code[] = " void test() {} ";
         Parser parser( code, sizeof( code ) - 1 );
 
-        declaration = parser.m_Parser.function_declaration();
+        declaration = parser.m_Parser.function_declaration()->declaration;
 
         REQUIRE( declaration );
 
@@ -28,7 +28,7 @@ TEST_CASE( "Function are parsed", "[parser]" )
         const char code[] = " int test() {} ";
         Parser parser( code, sizeof( code ) - 1 );
 
-        declaration = parser.m_Parser.function_declaration();
+        declaration = parser.m_Parser.function_declaration()->declaration;
 
         REQUIRE( declaration );
 
@@ -45,7 +45,7 @@ TEST_CASE( "Function are parsed", "[parser]" )
         const char code[] = " int test() : AnySemantic {} ";
         Parser parser( code, sizeof( code ) - 1 );
 
-        declaration = parser.m_Parser.function_declaration();
+        declaration = parser.m_Parser.function_declaration()->declaration;
 
         REQUIRE( declaration );
 
@@ -62,7 +62,7 @@ TEST_CASE( "Function are parsed", "[parser]" )
         const char code[] = " void test_with_arguments( float a, int b ) {} ";
         Parser parser( code, sizeof( code ) - 1 );
 
-        declaration = parser.m_Parser.function_declaration();
+        declaration = parser.m_Parser.function_declaration()->declaration;
 
         REQUIRE( declaration );
 
@@ -99,7 +99,7 @@ TEST_CASE( "Arguments are parsed", "[parser]" )
         const char code[] = " inout float test ";
         Parser parser( code, sizeof( code ) - 1 );
 
-        argument = parser.m_Parser.argument();
+        argument = parser.m_Parser.argument()->_argument;
 
         REQUIRE( argument );
 
@@ -116,7 +116,7 @@ TEST_CASE( "Arguments are parsed", "[parser]" )
         const char code[] = " const float test ";
         Parser parser( code, sizeof( code ) - 1 );
 
-        argument = parser.m_Parser.argument();
+        argument = parser.m_Parser.argument()->_argument;
 
         REQUIRE( argument );
 
@@ -134,7 +134,7 @@ TEST_CASE( "Arguments are parsed", "[parser]" )
         const char code[] = " float test : MyRandomSemantic ";
         Parser parser( code, sizeof( code ) - 1 );
 
-        argument = parser.m_Parser.argument();
+        argument = parser.m_Parser.argument()->_argument;
 
         REQUIRE( argument );
 
@@ -151,7 +151,7 @@ TEST_CASE( "Arguments are parsed", "[parser]" )
         const char code[] = " float test = 1 ";
         Parser parser( code, sizeof( code ) - 1 );
 
-        argument = parser.m_Parser.argument();
+        argument = parser.m_Parser.argument()->_argument;
 
         REQUIRE( argument );
 
@@ -168,7 +168,7 @@ TEST_CASE( "Arguments are parsed", "[parser]" )
         const char code[] = " float test : WithSemantic centroid = 1 ";
         Parser parser( code, sizeof( code ) - 1 );
 
-        argument = parser.m_Parser.argument();
+        argument = parser.m_Parser.argument()->_argument;
 
         REQUIRE( argument );
 

@@ -1,15 +1,17 @@
 #include "hlsl.h"
 
-#include "hlsl_parser/HLSLLexer.hpp"
-#include "hlsl_parser/HLSLParser.hpp"
+#include "HLSLLexer.h"
+#include "HLSLParser.h"
 #include "ast/node.h"
 
-Base::ObjectRef< AST::TranslationUnit > HLSL::ParseHLSL( const string &filename )
+
+Base::ObjectRef<AST::TranslationUnit> HLSL::ParseHLSL( const std::string & filename )
 {
-    HLSLLexerTraits::InputStreamType input( ( ANTLR_UINT8 * )filename.c_str(), ANTLR_ENC_8BIT );
+    antlr4::ANTLRFileStream input;
+    input.loadFromFile( filename );
     HLSLLexer lexer( &input );
-    HLSLLexerTraits::TokenStreamType token_stream( ANTLR_SIZE_HINT, lexer.get_tokSource() );
+    antlr4::CommonTokenStream token_stream( &lexer );
     HLSLParser parser( &token_stream );
 
-    return parser.translation_unit();
+    return parser.translation_unit()->_unit;
 }

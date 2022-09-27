@@ -7,7 +7,7 @@ AST::Expression * ParseLiteralExpression( const char * code )
 {
     Parser parser( code, strlen( code ) );
 
-    return parser.m_Parser.literal_value();
+    return parser.m_Parser.literal_value()->exp;
 }
 
 TEST_CASE( "Literal are parsed", "[parser]" )
@@ -120,7 +120,7 @@ TEST_CASE( "Arithmetic expressions are parsed", "[parser]" )
         const char code[] = "1+2";
         Parser parser( code, sizeof( code ) - 1 );
 
-        expression = parser.m_Parser.additive_expression();
+        expression = parser.m_Parser.additive_expression()->exp;
 
         REQUIRE( expression );
 
@@ -137,7 +137,7 @@ TEST_CASE( "Arithmetic expressions are parsed", "[parser]" )
         const char code[] = " 1 - 2 ";
         Parser parser( code, sizeof( code ) - 1 );
 
-        expression = parser.m_Parser.additive_expression();
+        expression = parser.m_Parser.additive_expression()->exp;
 
         REQUIRE( expression );
 
@@ -160,7 +160,7 @@ TEST_CASE( "Variable expressions are parsed", "[parser]" )
         const char code[] = " a ";
         Parser parser( code, sizeof( code ) - 1 );
 
-        expression = parser.m_Parser.variable_expression();
+        expression = parser.m_Parser.variable_expression()->exp;
 
         REQUIRE( expression );
         CHECK( expression->m_Name == "a" );
@@ -172,7 +172,7 @@ TEST_CASE( "Variable expressions are parsed", "[parser]" )
         const char code[] = " a[ 1 ] ";
         Parser parser( code, sizeof( code ) - 1 );
 
-        expression = parser.m_Parser.variable_expression();
+        expression = parser.m_Parser.variable_expression()->exp;
 
         REQUIRE( expression );
         CHECK( expression->m_Name == "a" );
@@ -192,7 +192,7 @@ TEST_CASE( "Function call expression are parsed", "[parser]" )
         const char code[] = " a() ";
         Parser parser( code, sizeof( code ) - 1 );
 
-        expression = parser.m_Parser.call_expression();
+        expression = parser.m_Parser.call_expression()->exp;
 
         REQUIRE( expression );
         CHECK( expression->m_Name == "a" );
@@ -205,7 +205,7 @@ TEST_CASE( "Function call expression are parsed", "[parser]" )
         const char code[] = " b( 1, a, a( 1 ) ) ";
         Parser parser( code, sizeof( code ) - 1 );
 
-        expression = parser.m_Parser.call_expression();
+        expression = parser.m_Parser.call_expression()->exp;
 
         REQUIRE( expression );
         CHECK( expression->m_Name == "b" );
@@ -225,7 +225,7 @@ TEST_CASE( "Constructor expression are parsed", "[parser]" )
         const char code[] = " float4() ";
         Parser parser( code, sizeof( code ) - 1 );
 
-        expression = parser.m_Parser.constructor();
+        expression = parser.m_Parser.constructor()->exp;
 
         REQUIRE( expression );
         REQUIRE( expression->m_Type );
@@ -239,7 +239,7 @@ TEST_CASE( "Constructor expression are parsed", "[parser]" )
         const char code[] = " float4( 1, 2, 3, 4 ) ";
         Parser parser( code, sizeof( code ) - 1 );
 
-        expression = parser.m_Parser.constructor();
+        expression = parser.m_Parser.constructor()->exp;
 
         REQUIRE( expression );
         REQUIRE( expression->m_Type );
@@ -256,7 +256,7 @@ bool IsPostfixSwizzle( const char * code )
     AST::PostfixSuffix * suffix = 0;
     Parser parser( code, strlen( code ) );
 
-    suffix = parser.m_Parser.postfix_suffix();
+    suffix = parser.m_Parser.postfix_suffix()->suffix;
 
     if( !suffix )
     {
@@ -312,7 +312,7 @@ TEST_CASE( "Suffix expression are parsed", "[parser]" )
         const char code[] = ".test() ";
         Parser parser( code, sizeof( code ) - 1 );
 
-        suffix = parser.m_Parser.postfix_suffix();
+        suffix = parser.m_Parser.postfix_suffix()->suffix;
 
         REQUIRE( suffix );
 
@@ -330,7 +330,7 @@ TEST_CASE( "Suffix expression are parsed", "[parser]" )
         const char code[] = ".test().xy ";
         Parser parser( code, sizeof( code ) - 1 );
 
-        suffix = parser.m_Parser.postfix_suffix();
+        suffix = parser.m_Parser.postfix_suffix()->suffix;
 
         REQUIRE( suffix );
 
@@ -349,7 +349,7 @@ TEST_CASE( "Suffix expression are parsed", "[parser]" )
         const char code[] = ".test ";
         Parser parser( code, sizeof( code ) - 1 );
 
-        suffix = parser.m_Parser.postfix_suffix();
+        suffix = parser.m_Parser.postfix_suffix()->suffix;
 
         REQUIRE( suffix );
 
@@ -367,7 +367,7 @@ TEST_CASE( "Suffix expression are parsed", "[parser]" )
         const char code[] = ".test.xy ";
         Parser parser( code, sizeof( code ) - 1 );
 
-        suffix = parser.m_Parser.postfix_suffix();
+        suffix = parser.m_Parser.postfix_suffix()->suffix;
 
         REQUIRE( suffix );
 
@@ -392,7 +392,7 @@ TEST_CASE( "LValue expression are parsed", "[parser]" )
         const char code[] = " a.test ";
         Parser parser( code, sizeof( code ) - 1 );
 
-        expression = parser.m_Parser.lvalue_expression();
+        expression = parser.m_Parser.lvalue_expression()->exp;
 
         REQUIRE( expression );
         REQUIRE( expression->m_VariableExpression );
@@ -405,7 +405,7 @@ TEST_CASE( "LValue expression are parsed", "[parser]" )
         const char code[] = " a[ 2 ].test ";
         Parser parser( code, sizeof( code ) - 1 );
 
-        expression = parser.m_Parser.lvalue_expression();
+        expression = parser.m_Parser.lvalue_expression()->exp;
 
         REQUIRE( expression );
         REQUIRE( expression->m_VariableExpression );
@@ -426,7 +426,7 @@ TEST_CASE( "Pre modify expression are parsed", "[parser]" )
         const char code[] = " ++a ";
         Parser parser( code, sizeof( code ) - 1 );
 
-        expression = parser.m_Parser.pre_modify_expression();
+        expression = parser.m_Parser.pre_modify_expression()->exp;
 
         REQUIRE( expression );
         CHECK( expression->m_Operator == AST::SelfModifyOperator_PlusPlus );
@@ -438,7 +438,7 @@ TEST_CASE( "Pre modify expression are parsed", "[parser]" )
         const char code[] = " --a ";
         Parser parser( code, sizeof( code ) - 1 );
 
-        expression = parser.m_Parser.pre_modify_expression();
+        expression = parser.m_Parser.pre_modify_expression()->exp;
 
         REQUIRE( expression );
         CHECK( expression->m_Operator == AST::SelfModifyOperator_MinusMinus );
@@ -457,7 +457,7 @@ TEST_CASE( "Post modify expression are parsed", "[parser]" )
         const char code[] = " a++ ";
         Parser parser( code, sizeof( code ) - 1 );
 
-        expression = parser.m_Parser.post_modify_expression();
+        expression = parser.m_Parser.post_modify_expression()->exp;
 
         REQUIRE( expression );
         CHECK( expression->m_Operator == AST::SelfModifyOperator_PlusPlus );
@@ -469,7 +469,7 @@ TEST_CASE( "Post modify expression are parsed", "[parser]" )
         const char code[] = " a-- ";
         Parser parser( code, sizeof( code ) - 1 );
 
-        expression = parser.m_Parser.post_modify_expression();
+        expression = parser.m_Parser.post_modify_expression()->exp;
 
         REQUIRE( expression );
         CHECK( expression->m_Operator == AST::SelfModifyOperator_MinusMinus );

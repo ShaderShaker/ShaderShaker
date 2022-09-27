@@ -12,5 +12,3 @@ target_sources(libshaker PUBLIC
     statement_node.cpp
     technique_node.cpp
     tree_traverser.cpp)
-
-target_include_directories(libshaker PUBLIC . )

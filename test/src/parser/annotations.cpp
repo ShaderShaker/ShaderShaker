@@ -11,7 +11,7 @@ TEST_CASE( "Annotations are parsed", "[parser]" )
         const char code[] = " <> ";
         Parser parser( code, sizeof( code ) - 1 );
 
-        annotations = parser.m_Parser.annotations();
+        annotations = parser.m_Parser.annotations()->_annotations;
 
         REQUIRE( annotations );
         CHECK( annotations->m_AnnotationTable.size() == 0 );
@@ -22,7 +22,7 @@ TEST_CASE( "Annotations are parsed", "[parser]" )
         const char code[] = " <string UIWidget=\"None\";> ";
         Parser parser( code, sizeof( code ) - 1 );
 
-        annotations = parser.m_Parser.annotations();
+        annotations = parser.m_Parser.annotations()->_annotations;
 
         REQUIRE( annotations );
         REQUIRE( annotations->m_AnnotationTable.size() == 1 );
@@ -36,7 +36,7 @@ TEST_CASE( "Annotations are parsed", "[parser]" )
         const char code[] = " <bool display=true;> ";
         Parser parser( code, sizeof( code ) - 1 );
 
-        annotations = parser.m_Parser.annotations();
+        annotations = parser.m_Parser.annotations()->_annotations;
 
         REQUIRE( annotations );
         REQUIRE( annotations->m_AnnotationTable.size() == 1 );
@@ -50,7 +50,7 @@ TEST_CASE( "Annotations are parsed", "[parser]" )
         const char code[] = " <int value=12;> ";
         Parser parser( code, sizeof( code ) - 1 );
 
-        annotations = parser.m_Parser.annotations();
+        annotations = parser.m_Parser.annotations()->_annotations;
 
         REQUIRE( annotations );
         REQUIRE( annotations->m_AnnotationTable.size() == 1 );
@@ -65,7 +65,7 @@ TEST_CASE( "Annotations are parsed", "[parser]" )
         const char code[] = " <float value=12.0;> ";
         Parser parser( code, sizeof( code ) - 1 );
 
-        annotations = parser.m_Parser.annotations();
+        annotations = parser.m_Parser.annotations()->_annotations;
 
         REQUIRE( annotations );
         REQUIRE( annotations->m_AnnotationTable.size() == 1 );
@@ -79,7 +79,7 @@ TEST_CASE( "Annotations are parsed", "[parser]" )
         const char code[] = " <float value=12.0; int test=3; bool display = false; string UIWidget=\"None\"; > ";
         Parser parser( code, sizeof( code ) - 1 );
 
-        annotations = parser.m_Parser.annotations();
+        annotations = parser.m_Parser.annotations()->_annotations;
 
         REQUIRE( annotations );
         REQUIRE( annotations->m_AnnotationTable.size() == 4 );

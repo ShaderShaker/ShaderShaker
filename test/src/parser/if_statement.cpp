@@ -11,7 +11,7 @@ TEST_CASE( "If statement are parsed", "[parser]" )
         const char code[] = " if( 1 ) ;";
         Parser parser( code, sizeof( code ) - 1 );
 
-        statement = parser.m_Parser.if_statement();
+        statement = parser.m_Parser.if_statement()->_statement;
 
         REQUIRE( statement );
         REQUIRE( statement->m_Condition );
@@ -25,7 +25,7 @@ TEST_CASE( "If statement are parsed", "[parser]" )
         const char code[] = " if( 1 ) ; else ;";
         Parser parser( code, sizeof( code ) - 1 );
 
-        statement = parser.m_Parser.if_statement();
+        statement = parser.m_Parser.if_statement()->_statement;
 
         REQUIRE( statement );
         REQUIRE( statement->m_Condition );
@@ -40,7 +40,7 @@ TEST_CASE( "If statement are parsed", "[parser]" )
         const char code[] = " if( 1 ) ; else if( 2 ) ;";
         Parser parser( code, sizeof( code ) - 1 );
 
-        statement = parser.m_Parser.if_statement();
+        statement = parser.m_Parser.if_statement()->_statement;
 
         REQUIRE( statement );
         REQUIRE( statement->m_Condition );

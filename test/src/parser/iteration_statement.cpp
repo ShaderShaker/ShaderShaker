@@ -12,7 +12,7 @@ TEST_CASE( "Iteration statements are parsed", "[parser]" )
         const char code[] = "while( 1 );";
         Parser parser( code, sizeof( code ) - 1 );
 
-        statement = parser.m_Parser.iteration_statement();
+        statement = parser.m_Parser.iteration_statement()->_statement;
 
         REQUIRE( statement );
 
@@ -30,7 +30,7 @@ TEST_CASE( "Iteration statements are parsed", "[parser]" )
         const char code[] = " do ; while( 1 );";
         Parser parser( code, sizeof( code ) - 1 );
 
-        statement = parser.m_Parser.iteration_statement();
+        statement = parser.m_Parser.iteration_statement()->_statement;
 
         REQUIRE( statement );
 
@@ -48,7 +48,7 @@ TEST_CASE( "Iteration statements are parsed", "[parser]" )
         const char code[] = "for( int i = 0; i <  b; ++i );";
         Parser parser( code, sizeof( code ) - 1 );
 
-        statement = parser.m_Parser.iteration_statement();
+        statement = parser.m_Parser.iteration_statement()->_statement;
 
         REQUIRE( statement );
 

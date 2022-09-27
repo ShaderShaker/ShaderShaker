@@ -12,7 +12,7 @@ TEST_CASE( "Jump statement are parsed", "[parser]" )
         const char code[] = " return; ";
         Parser parser( code, sizeof( code ) - 1 );
 
-        statement = parser.m_Parser.jump_statement();
+        statement = parser.m_Parser.jump_statement()->_statement;
 
         REQUIRE( statement );
 
@@ -28,7 +28,7 @@ TEST_CASE( "Jump statement are parsed", "[parser]" )
         const char code[] = " return 1; ";
         Parser parser( code, sizeof( code ) - 1 );
 
-        statement = parser.m_Parser.jump_statement();
+        statement = parser.m_Parser.jump_statement()->_statement;
 
         REQUIRE( statement );
 
@@ -44,7 +44,7 @@ TEST_CASE( "Jump statement are parsed", "[parser]" )
         const char code[] = " break; ";
         Parser parser( code, sizeof( code ) - 1 );
 
-        statement = parser.m_Parser.jump_statement();
+        statement = parser.m_Parser.jump_statement()->_statement;
 
         REQUIRE( statement );
 
@@ -59,7 +59,7 @@ TEST_CASE( "Jump statement are parsed", "[parser]" )
         const char code[] = " continue; ";
         Parser parser( code, sizeof( code ) - 1 );
 
-        statement = parser.m_Parser.jump_statement();
+        statement = parser.m_Parser.jump_statement()->_statement;
 
         REQUIRE( statement );
 
@@ -74,7 +74,7 @@ TEST_CASE( "Jump statement are parsed", "[parser]" )
         const char code[] = " discard; ";
         Parser parser( code, sizeof( code ) - 1 );
 
-        statement = parser.m_Parser.jump_statement();
+        statement = parser.m_Parser.jump_statement()->_statement;
 
         REQUIRE( statement );
 
@@ -93,7 +93,7 @@ TEST_CASE( "Empty statement is parsed", "[parser]" )
     const char code[] = " ; ";
     Parser parser( code, sizeof( code ) - 1 );
 
-    statement = parser.m_Parser.statement();
+    statement = parser.m_Parser.statement()->_statement;
 
     REQUIRE( statement );
 
@@ -110,7 +110,7 @@ TEST_CASE( "Expression statement is parsed", "[parser]" )
     const char code[] = " 1; ";
     Parser parser( code, sizeof( code ) - 1 );
 
-    statement = parser.m_Parser.expression_statement();
+    statement = parser.m_Parser.expression_statement()->_statement;
 
     REQUIRE( statement );
     REQUIRE( statement->m_Expression );
@@ -127,7 +127,7 @@ TEST_CASE( "Block statement is parsed" )
         const char code[] = " { } ";
         Parser parser( code, sizeof( code ) - 1 );
 
-        statement = parser.m_Parser.block_statement();
+        statement = parser.m_Parser.block_statement()->_statement;
 
         REQUIRE( statement );
         CHECK( statement->m_StatementTable.size() == 0 );
@@ -138,7 +138,7 @@ TEST_CASE( "Block statement is parsed" )
         const char code[] = " { 1; 2; 3; } ";
         Parser parser( code, sizeof( code ) - 1 );
 
-        statement = parser.m_Parser.block_statement();
+        statement = parser.m_Parser.block_statement()->_statement;
 
         REQUIRE( statement );
         CHECK( statement->m_StatementTable.size() == 3 );
@@ -156,7 +156,7 @@ TEST_CASE( "Variable declaration statement is parsed" )
         const char code[] = " float test; ";
         Parser parser( code, sizeof( code ) - 1 );
 
-        statement = parser.m_Parser.local_variable_declaration();
+        statement = parser.m_Parser.local_variable_declaration()->_statement;
 
         REQUIRE( statement );
         CHECK( statement->m_Type->m_Name == "float" );
